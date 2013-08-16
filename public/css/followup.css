@@ -1,0 +1,27 @@
+/* phone */
+html, body {
+	font-famly: 'Open Sans', sans-serif;
+}
+.appointment {
+	height: 200px;
+	border: solid 1px #eee;
+	margin: 5px;
+}
+.map {
+	height: 200px;
+}
+
+/* small */
+@media (min-width: 768px) {
+
+}
+/* medium */
+@media (min-width: 992px) {
+
+}
+
+/* large */
+@media (min-width: 1200px) {
+
+}
+

@@ -6,79 +6,76 @@
 		<meta http-equiv="X-UA-Compatible" content="IE-edge">
 		<title>Resounding followups dashboard</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans">
 		<link rel="stylesheet" href="css/bootstrap.css">
 		<link rel="stylesheet" href="css/bootstrap-modal.css">
 		<link rel="stylesheet" href="css/font-awesome.css">
+		<link rel="stylesheet" href="css/followup.css">
 	</head>
 	<body>
 		<h1><i class="icon-beaker"></i> Hello, node on Azure!</h1>
 
-		<div class="row">
-			<div class="col-xs-8" style="background-color: lightblue">
-				<span class="icon-stack">&nbsp;</span>
+		<div class="col-sm-6">
+			<div class="appointment">
+				<div class="col-xs-8">
+					<h3>Ron McStevens</h3>
+
+					<address>
+						<strong>Burlington Financial</strong><br>
+						588 Walker's Line<br>
+						Burlington, ON L9D 5S5<br>
+						<abbr title="Phone">P:</abbr><a href="tel:9056378899">(905) 637-8899</a>
+						<abbr title="Email">E:</abbr><a href="mailto:ron@burlingtonfinancial.ca">ron@burlingtonfinancial.ca</a>
+					</address>
+				</div>
+				<div class="col-xs-4" style="text-align: center">
+					<div class="icon-stack" style="margin-top: 20px; margin-bottom: 10px;">
+						<i class="icon-calendar-empty icon-stack-base"></i>
+						<i class="icon-group icon-border"></i>
+					</div>
+					<div class="map" id="burlington-financial-map"></div>
+				</div>
 			</div>
-			<div class="col-xs-4" style="background-color: lightgrey">
-				<span class="icon-stack">
-					<i class="icon-calendar-empty icon-stack-base"></i>
-					<i class="icon-phone icon-border"></i>
-				</span>
+			<div class="appointment">
+				<div class="col-xs-8">
+					<h3>Mark Stewart</h3>
+
+					<address>
+						<strong>RBC Burlington</strong><br>
+						9858 Fairview St., Suite 600<br>
+						Burlington, ON L7D 5S9<br>
+						<abbr title="Email">E:</abbr> <a href="mailto:mark.stewart@rbc.com">mark.stewart@rbc.com</a>
+					</address>
+				</div>
+				<div class="col-xs-4" style="text-align: center">
+					<div class="icon-stack" style="margin-top: 20px; margin-bottom: 10px;">
+						<i class="icon-calendar-empty icon-stack-base"></i>
+						<i class="icon-phone icon-border"></i>
+					</div>
+					<h3><a href="tel:9056397676">(905) 639-8787</a></h3>
+				</div>
 			</div>
 		</div>
 
-		<p>
-			<button class="btn" data-target=".modal" data-toggle="modal">Go!</button>
-		</p>
-
-		<p>
-			<span class="icon-stack">
-				<i class="icon-calendar-empty icon-stack-base"></i>
-				<i class="icon-phone icon-border"></i>
-			</span>
-		</p>
-		<p>
-			<i class="icon-phone icon-border icon-large"></i>
-		</p>
-
-		<p>
-			<span class="icon-stack">
-				<i class="icon-calendar-empty icon-stack-base"></i>
-				<i class="icon-group icon-border"></i>
-			</span>
-		</p>
-		<p>
-			<i class="icon-group icon-border icon-large"></i>
-		</p>
-
-		<p>
-			<span class="icon-stack">
-				<i class="icon-calendar-empty icon-stack-base"></i>
-				<i class="icon-envelope icon-border"></i>
-			</span>
-		</p>
-		<p>
-			<i class="icon-envelope icon-border icon-large"></i>
-		</p>
-
-		<div class="modal fade">
-		  <div class="modal-dialog">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		        <h4 class="modal-title">Modal title</h4>
-		      </div>
-		      <div class="modal-body">
-		        <p>Testing modals&hellip;</p>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		        <button type="button" class="btn btn-primary">Save changes</button>
-		      </div>
-		    </div>
-		  </div>
-		</div>
 		<script src="js/jquery-1.10.2.js"></script>
 		<script src="js/bootstrap.js"></script>
 		<script src="js/bootstrap-modal.js"></script>
 		<script src="js/bootstrap-modalmanager.js"></script>
+		<script src="//maps.googleapis.com/maps/api/js?key=AIzaSyCmVsKj8xNC1dLEWI0thHQlHB3rr1iHHIY&sensor=true"></script>
+		<script type="text/javascript">
+		function initialize() {
+			var mapOptions = {
+				center: new google.maps.LatLng(43.3561686, -79.7742005),
+					zoom: 15,
+					mapTypeId: google.maps.MapTypeId.ROADMAP,
+					streetViewControl: false,
+					mapTypeControl: false
+			};
+			var map = new google.maps.Map(document.getElementById('burlington-financial-map'), mapOptions);
+		}
+		
+		google.maps.event.addDomListener(window, 'load', initialize);
+
+		</script>
 	</body>
 </html>
