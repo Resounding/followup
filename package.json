@@ -1,0 +1,25 @@
+{
+	"name": "followup",
+	"version": "0.0.1",
+	"author": "Cliffe Hodgkinson <cliffe@resounding.ca>",
+	"description": "A lightweight CRM",
+	"contributors": [
+		{
+			"name": "Cliffe Hodgkinson",
+			"email": "cliffe@resounding.ca"
+		}
+	],
+	"main": "./server.js",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Resounding/followup.git"
+	},
+	"dependencies": {
+		"express": "3.x"
+	},
+	"devDependencies": { },
+	"license": "MIT",
+	"engines": {
+		"node": ">=0.10"
+	}
+}
