@@ -1,9 +1,9 @@
 /* phone */
-html, body {
-	font-famly: 'Open Sans', sans-serif;
+html, body, h1, h2, h3, h4, h5, h6 {
+	font-family: 'Open Sans', sans-serif;
 }
 .appointment {
-	height: 200px;
+	min-height: 200px;
 	border: solid 1px #eee;
 	margin: 5px;
 }
