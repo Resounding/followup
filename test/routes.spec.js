@@ -1,8 +1,6 @@
 var assert = require('assert'),
 	request = require('supertest'),
-	express = require('express'),
-	Resource = require('express-resource'),
-	app = express(),
+	app = require('./setup'),
 	routes = require('../config/routes')(app);
 
 
