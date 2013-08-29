@@ -9,17 +9,28 @@
 			"email": "cliffe@resounding.ca"
 		}
 	],
-	"main": "./server.js",
+	"license": "MIT",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/Resounding/followup.git"
 	},
+	"main": "server.js",
 	"dependencies": {
-		"express": "3.x"
+		"express": "3.x",
+		"express-resource": "1.x",
+		"consolidate": "*",
+		"underscore": "1.x"
 	},
 	"engines": {
 		"node": "0.10.x"
 	},
-	"devDependencies": { },
-	"license": "MIT"
+	"scripts": {
+		"start": ".\\node_modules\\.bin\\nodemon server.js",
+		"test": ".\\node_modules\\.bin\\mocha -R spec"
+	},
+	"devDependencies": {
+		"supertest": "*",
+		"nodemon": "*",
+		"mocha": "*"
+	}
 }
