@@ -15,16 +15,13 @@
 			<input type="hidden" name="type" value="<%= type %>" />
 			<input type="hidden" name="_rev" value="<%= _rev %>" />
 
-			<input type="text" name="firstName" value="<%= firstName %>" />
-			<input type="text" name="lastName" value="<%= lastName %>" />
+			<input type="hidden" name="firstName" value="<%= firstName %>" />
+			<input type="hidden" name="lastName" value="<%= lastName %>" />
+
+			<p><%- firstName %> <%- lastName %></p>
+			<p>Next followup:</p>
 
 			<input type="submit" />
-		</form>
-		<form method="post" action="/people/<%= _id %>">
-			<input type="hidden" name="_method" value="DELETE" />
-			<input type="hidden" name="_rev" value="<%= _rev %>" />
-
-			<input type="submit" value="Delete" />
-		</form>
+		</form>		
 	</body>
 </html>

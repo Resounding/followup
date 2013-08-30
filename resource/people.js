@@ -8,12 +8,11 @@ function People(db) {
 }
 
 People.index = function(req, res){
-  db.view('people/lastName', function(err, rows) {
+  database.view('people/lastName', function(err, dbRes) {
     res.render('people', {
-      rows: rows
+      people: dbRes
     });  
-  })
-  
+  });  
 };
 
 People.new = function(req, res){
@@ -21,20 +20,20 @@ People.new = function(req, res){
 };
 
 People.create = function(req, res){
-  db.save(req.body, function(err, dbRes) {
+  database.save(req.body, function(err, dbRes) {
     var id = dbRes._id;
     res.redirect('/people/' + id);
   });
 };
 
 People.show = function(req, res){
-  db.get(req.params.person, function(err, doc) {
+  database.get(req.params.person, function(err, doc) {
     res.render('people/show', doc);  
   });
 };
 
 People.edit = function(req, res){
-  db.get(req.params.person, function(err, doc) {
+  database.get(req.params.person, function(err, doc) {
     res.render('people/edit', doc);
   });
 };
@@ -46,17 +45,24 @@ People.update = function(req, res){
 
   delete doc._rev;
   
-  db.save(id, rev, doc, function(err, dbRes) {
+  database.save(id, rev, doc, function(err, dbRes) {
     res.redirect('/people/' + id);
   }); 
 };
 
 People.destroy = function(req, res){
-  res.send('destroy person ' + req.params.person);
+  var id = req.params.person,
+      rev = req.body._rev;
+
+  database.remove(id, rev, function() {
+    res.redirect('/people');
+  });
 };
 
 People.followup = function(req, res){
-	res.send('person followup ' + req.params.person + '!');
+	database.get(req.params.person, function(err, doc) {
+    res.render('people/followup', doc);
+  });
 };
 
 module.exports = People;

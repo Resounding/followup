@@ -8,11 +8,11 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 	</head>
 	<body>
-		<a href="people/new">New Person</a>
+		<a href="/people/new">New Person</a>
 		<ul>
-		<% rows.forEach(function(row) { %>
+		<% people.forEach(function(person) { %>
 			<li>
-				<a href="people/<%= row._id %>"><%- row.firstName %> <%- row.lastName %></a>
+				<a href="/people/<%= person._id %>"><%- person.firstName %> <%- person.lastName %></a>
 			</li>
 		<% }) %>			
 		</ul>

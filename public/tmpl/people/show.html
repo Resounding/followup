@@ -8,7 +8,10 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 	</head>
 	<body>
+		<a href="/people">Home</a>
+
 		<h1><%= firstName %> <%= lastName %></h1>
-		<a href="<%= _id %>/edit">Edit</a>
+		<a href="/people/<%= _id %>/edit">Edit</a>
+		<a href="/people/<%= _id %>/followup">Record Contact</a>
 	</body>
 </html>
