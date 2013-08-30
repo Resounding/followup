@@ -18,8 +18,9 @@
 	"dependencies": {
 		"express": "3.x",
 		"express-resource": "1.x",
-		"consolidate": "*",
-		"underscore": "1.x"
+		"consolidate": "0.9.x",
+		"underscore": "1.x",
+		"cradle": "0.6.x"
 	},
 	"engines": {
 		"node": "0.10.x"

@@ -8,6 +8,13 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 	</head>
 	<body>
-		<h1>New Person</h1>
+		<form method="post" action="/people">
+			<h1>Creating a new person</h1>
+			<input type="hidden" name="type" value="person" />
+			<input type="text" name="firstName" />
+			<input type="text" name="lastName" />
+
+			<input type="submit" />
+		</form>
 	</body>
 </html>

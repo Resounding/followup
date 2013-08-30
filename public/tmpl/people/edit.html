@@ -8,10 +8,13 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 	</head>
 	<body>
-		<form method="post" action="/people/<%= id %>">
+		<form method="post" action="/people/<%= _id %>">
 			<input type="hidden" name="_method" value="PUT" />
-			<h1>Editing person #<%= id %></h1>
-			<input type="text" name="person" value="<%= id %>" />
+			<input type="hidden" name="type" value="<%= type %>" />
+			<input type="hidden" name="_rev" value="<%= _rev %>" />
+
+			<input type="text" name="firstName" value="<%= firstName %>" />
+			<input type="text" name="lastName" value="<%= lastName %>" />
 
 			<input type="submit" />
 		</form>

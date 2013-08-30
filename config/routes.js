@@ -1,4 +1,5 @@
-var people = require('../resource/people');
+var db = require('./cradle'),
+	people = require('../resource/people', db);
 
 function Route(app) {
 	var peopleResource = app.resource('people', people);
