@@ -1,6 +1,6 @@
 var cradle = require('cradle'),
-	conn = new (cradle.Connection)('https://cliffeh:N!chir1n@cliffeh.cloudant.com', 443, {
-		auth: { username: 'cliffeh', password: 'N!chir1n' }
+	conn = new (cradle.Connection)('https://cliffeh.cloudant.com', 443, {
+		auth: { username: 'heretworecomeesecepitspl', password: 'LwBQiuKLH7ETPYV3H7rsLKvF' }
 	})
 	db = conn.database('followup');
 
