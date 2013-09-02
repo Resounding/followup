@@ -17,35 +17,78 @@
 		<h1><i class="icon-beaker"></i> Hello, node on Azure!</h1>
 
 		<div class="col-sm-6">
-			<div class="appointment">
+			<% followups.forEach(function(row) { %>
+			<% var overdueClass = row.overdue ? 'overdue' : ''; %>
+			<% var iconClass = 'icon-calendar'; %>
+			<% switch((row.nextContact.type || '').toLowerCase()) {
+				case 'call': iconClass = 'icon-phone'; break;
+				case 'meeting': iconClass = 'icon-group'; break;
+				case 'email': iconClass = 'icon-envelope'; break;
+			} %>
+			<div class="appointment <%= overdueClass %>">
 				<div class="col-xs-8">
-					<h3>Ron McStevens</h3>
+					<h3><%- row.firstName %> <%- row.lastName %></h3>
 
 					<address>
-						<strong>Burlington Financial</strong><br>
-						588 Walker's Line<br>
-						Burlington, ON L9D 5S5<br>
-						<abbr title="Phone">P:</abbr><a href="tel:9056378899">(905) 637-8899</a>
-						<abbr title="Email">E:</abbr><a href="mailto:ron@burlingtonfinancial.ca">ron@burlingtonfinancial.ca</a>
+						<strong><%- row.organization %></strong><br />
+						<% if(row.address) { %>
+							<% if(row.address.street) { %>
+								<%- row.address.street %>
+								<br />
+							<% } %>
+							<%- row.address.city %>
+							<% if(row.address.city && row.address.province) { print(', '); } %>
+							<%- row.address.province %>
+							<% if(row.address.city && row.address.province) { %>
+								<br />
+							<% } %>
+						<% } %>
+						<% if(row.email) { %>
+							<abbr title="Email">E:</abbr>
+							<a href="mailto:<%= row.email %>">
+								<%= row.email %>
+							</a>
+							<br />
+						<% } %>
+						<% if(row.phones) { %>
+							<% row.phones.forEach(function(phone) { %>
+								<abbr title="<%= phone.type%>"><%= phone.abbreviation %>:</abbr>
+								<a href="tel:<%= phone.number %>"><%= phone.number %></a>
+								<br />
+							<% }) %>						
+						<% } %>
 					</address>
 				</div>
 				<div class="col-xs-4" style="text-align: center">
 					<div class="icon-stack" style="margin-top: 20px; margin-bottom: 10px;">
-						<i class="icon-calendar-empty icon-stack-base"></i>
-						<i class="icon-group icon-border"></i>
+						<% if(row.nextContact.confirmed) { %>
+							<i class="icon-calendar-empty icon-stack-base"></i>
+							<i class="icon-border <%= iconClass %>"></i>
+						<% } else { %>
+							<i class="icon-stack-base <%= iconClass %>"></i>
+						<% } %>
 					</div>
-					<h4>9:00 AM</h4>
-					<div class="map" id="burlington-financial-map"></div>
+					<% if(row.nextContact.confirmed) { %>
+					<h4><%= row.nextContact.timeString %></h4>
+					<% } else { %>
+					<h4><%- row.nextContact.reason %></h4>
+					<% } %>
+					<% if(row.overdue) { %>
+					<h4><%= row.nextContact.dateString %></h4>
+					<% } %>
+					<!-- <div class="map" id="burlington-financial-map"></div>-->
 				</div>
 			</div>
+			<% }); %>
+			<!--
 			<div class="appointment">
 				<div class="col-xs-8">
 					<h3>Mark Stewart</h3>
 
 					<address>
-						<strong>RBC Burlington</strong><br>
-						9858 Fairview St., Suite 600<br>
-						Burlington, ON L7D 5S9<br>
+						<strong>RBC Burlington</strong><br />
+						9858 Fairview St., Suite 600<br />
+						Burlington, ON L7D 5S9<br />
 						<abbr title="Email">E:</abbr> <a href="mailto:mark.stewart@rbc.com">mark.stewart@rbc.com</a>
 					</address>
 				</div>
@@ -56,7 +99,7 @@
 					</div>
 					<h3><a href="tel:9056397676">(905) 639-8787</a></h3>
 				</div>
-			</div>
+			</div>-->
 		</div>
 
 		<script src="js/jquery-1.10.2.js"></script>

@@ -3,9 +3,20 @@ html, body, h1, h2, h3, h4, h5, h6 {
 	font-family: 'Open Sans', sans-serif;
 }
 .appointment {
+	cursor: pointer;
 	min-height: 200px;
 	border: solid 1px #eee;
 	margin: 5px;
+}
+.appointment:hover {
+	background-color: #eee;
+}
+.appointment.overdue {
+	border-color: #f00;
+}
+.appointment.overdue .icon-stack,
+.appointment.overdue h4 {
+	color: #f00;
 }
 .map {
 	height: 135px;
