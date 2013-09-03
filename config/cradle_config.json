@@ -17,12 +17,12 @@
 		"port": 5984,
 		"database": "followup",
 		"user": {
-			"username": "cliffeh",
-			"password": "N!chir1n"
+			"username": "user",
+			"password": "password"
 		},
 		"admin": {
-			"username": "cliffeh",
-			"password": "N!chir1n"
+			"username": "user",
+			"password": "password"
 		}
 	}
 }

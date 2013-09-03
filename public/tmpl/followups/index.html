@@ -14,7 +14,46 @@
 		<link rel="stylesheet" href="css/followup.css">
 	</head>
 	<body>
-		<h1><i class="icon-beaker"></i> Hello, node on Azure!</h1>
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="/"><i class="icon-beaker"></i> Followups</a>
+			</div>		
+			<div class="collapse navbar-collapse">
+				<form class="navbar-form">
+					<div class="input-group col-xs-9 col-sm-4 col-lg-3">
+						<input type="search" class="form-control" placeholder="Search" />
+						<span class="input-group-btn">									
+							<button type="submit" class="btn btn-default">
+								<i class="icon-search"></i>
+							</button>
+							<div class="btn-group">
+								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+									<i class="icon-tags"></i>
+									<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="#">&gt; $5M</a></li>
+									<li><a href="#">Fall Roadshow</a></li>
+									<li><a href="#">Golf</a></li>
+									<li class="divider"></li>
+									<li><a href="#">Show All</a></li>
+								</ul>
+							</div>
+						</span>
+					</div>					
+					<a href="/people/new" class="btn btn-default navbar-link">
+						<i class="icon-plus"></i>
+						<span>Add client</span>						
+					</a>
+					
+				</form>
+			</div>
+		</nav>
 
 		<div class="col-sm-6">
 			<% followups.forEach(function(row) { %>
@@ -79,27 +118,7 @@
 					<!-- <div class="map" id="burlington-financial-map"></div>-->
 				</div>
 			</div>
-			<% }); %>
-			<!--
-			<div class="appointment">
-				<div class="col-xs-8">
-					<h3>Mark Stewart</h3>
-
-					<address>
-						<strong>RBC Burlington</strong><br />
-						9858 Fairview St., Suite 600<br />
-						Burlington, ON L7D 5S9<br />
-						<abbr title="Email">E:</abbr> <a href="mailto:mark.stewart@rbc.com">mark.stewart@rbc.com</a>
-					</address>
-				</div>
-				<div class="col-xs-4" style="text-align: center">
-					<div class="icon-stack" style="margin-top: 20px; margin-bottom: 10px;">
-						<i class="icon-calendar-empty icon-stack-base"></i>
-						<i class="icon-phone icon-border"></i>
-					</div>
-					<h3><a href="tel:9056397676">(905) 639-8787</a></h3>
-				</div>
-			</div>-->
+			<% }); %>			
 		</div>
 
 		<script src="js/jquery-1.10.2.js"></script>
