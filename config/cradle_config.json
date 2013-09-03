@@ -1,6 +1,6 @@
 {
 	"production": {
-		"url": "https://cliffe.cloudant.com",
+		"url": "https://cliffeh.cloudant.com",
 		"port": 443,
 		"database": "followup",
 		"user": {
