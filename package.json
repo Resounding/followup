@@ -27,7 +27,7 @@
 		"node": "0.10.x"
 	},
 	"scripts": {
-		"start": ".\\node_modules\\.bin\\nodemon server.js",
+		"start": "set NODE_ENV=dev&&.\\node_modules\\.bin\\nodemon server.js",
 		"test": ".\\node_modules\\.bin\\mocha -R spec"
 	},
 	"devDependencies": {

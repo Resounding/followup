@@ -15,4 +15,4 @@ app.use(express.static(__dirname + '/public'));
 require('./config/routes')(app);
 
 app.listen(port);
-console.log('Listening on port ' + port);
+console.log('Listening on port ' + port + ', environment is ' + process.env.NODE_ENV);

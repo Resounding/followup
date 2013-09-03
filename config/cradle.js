@@ -1,8 +1,10 @@
-var util = require('util'),
+
+var config = require('./cradle_config')[process.env.NODE_ENV || 'production'],
+	util = require('util'),
 	cradle = require('cradle'),
-	conn = new (cradle.Connection)('https://cliffeh.cloudant.com', 443, {
-		auth: { username: 'heretworecomeesecepitspl', password: 'LwBQiuKLH7ETPYV3H7rsLKvF' }
-	})
+	conn = new (cradle.Connection)(config.url, config.port, {
+		auth: { username: config.user.username, password: config.user.password }
+	}),
 	db = conn.database('followup');
 
 db.exists(function(err, exists) {
@@ -29,7 +31,7 @@ db.get(PEOPLE_VIEW_NAME, function(err, doc) {
 	
 	if((err && err.error == 'not_found') || doc == null) {
 		console.log('creating design document');
-		conn.auth = { username: 'cliffeh', password: 'N!chir1n' };
+		conn.auth = { username: config.admin.username, password: config.admin.password };
 		db.save(PEOPLE_VIEW_NAME, {
 			views: {
 				lastName: {
