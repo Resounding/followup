@@ -4,19 +4,109 @@
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE-edge">
-		<title>New Person</title>
+		<title>New Client</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans">
+		<link rel="stylesheet" href="/css/bootstrap.css">
+		<link rel="stylesheet" href="/css/bootstrap-modal.css">
+		<link rel="stylesheet" href="/css/font-awesome.css">
+		<link rel="stylesheet" href="/css/followup.css">
 	</head>
 	<body>
-		<a href="/people">Home</a>
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="/"><i class="icon-beaker"></i> Followups</a>
+			</div>		
+			<div class="collapse navbar-collapse">
+				<form class="navbar-form" action="search" method="GET">
+					<div class="input-group col-xs-9 col-sm-4 col-lg-3">
+						<input type="search" name="q" class="form-control" placeholder="Search" />
+						<input type="hidden" name="tag" />
+						<span class="input-group-btn">									
+							<button type="submit" class="btn btn-default">
+								<i class="icon-search"></i>
+							</button>
+							<div class="btn-group">
+								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+									<i class="icon-tags"></i>
+									<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="#">&gt; $5M</a></li>
+									<li><a href="#">Fall Roadshow</a></li>
+									<li><a href="#">Golf</a></li>
+									<li class="divider"></li>
+									<li><a href="#">Show All</a></li>
+								</ul>
+							</div>
+						</span>
+					</div>					
+					<a href="/people/new" class="btn btn-default navbar-link">
+						<i class="icon-plus"></i>
+						<span class="not-phone">Add client</span>						
+					</a>
+					
+				</form>
+			</div>
+		</nav>
 		
-		<form method="post" action="/people">
-			<h1>Creating a new person</h1>
+		<form method="post" action="/people" class="form-horizontal">
 			<input type="hidden" name="type" value="person" />
-			<input type="text" name="firstName" />
-			<input type="text" name="lastName" />
 
-			<input type="submit" />
+			<div class="form-group">
+				<label class="control-label col-xs-12 col-sm-3 col-md-1">Name:</label>
+				<input type="text" name="firstName" placeholder="First Name" class="col-xs-12 col-sm-3 col-md-2" />
+				<input type="text" name="lastName" placeholder="Last Name" class="col-xs-12 col-sm-3 col-md-2" />
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-xs-12 col-sm-3 col-md-1">Company:</label>
+				<input type="text" name="organization" placeholder="Company" class="col-xs-12 col-sm-3 col-md-2" />
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-xs-12 col-sm-3 col-md-1">Address:</label>
+				<input type="text" name="address[street]" placeholder="Street Address" class="col-xs-12 col-sm-4 col-md-3" />
+				<input type="text" name="address[city]" placeholder="City" class="col-xs-12 col-sm-2 col-md-2" />
+				<input type="hidden" name="address[province]" value="ON" />
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-xs-12 col-sm-3 col-md-1">Phone:</label>
+				<input type="hidden" name="phones[0][type]" value="Phone" />
+				<input type="phone" name="phones[0][number]" placeholder="Phone" class="col-xs-12 col-sm-3 col-md-2" />
+				<div class="clearfix"></div>
+
+				<label class="control-label col-xs-12 col-sm-3 col-md-1">Cell:</label>
+				<input type="hidden" name="phones[1][type]" value="Cell" />
+				<input type="phone" name="phones[1][number]" placeholder="Cell" class="col-xs-12 col-sm-3 col-md-2" />
+				<div class="clearfix"></div>
+
+				<label class="control-label col-xs-12 col-sm-3 col-md-1">Email:</label>
+				<input type="phone" name="email" placeholder="Email" class="col-xs-12 col-sm-3 col-md-2" />
+				<div class="clearfix"></div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-xs-12 col-sm-3 col-md-1">Reason:</label>
+				<input type="text" name="nextContact[reason]" placeholder="Reason" class="col-xs-12 col-sm-6 col-md-4" />
+			</div>
+
+			<a href="/" class="btn btn-default">
+				<i class="icon-undo"></i>
+				Cancel
+			</a>
+			<button type="submit" class="btn btn-default">
+				<i class="icon-save"></i>
+				Save
+			</button>
 		</form>
+		<script src="/js/jquery-1.10.2.js"></script>
+		<script src="/js/bootstrap.js"></script>
 	</body>
 </html>

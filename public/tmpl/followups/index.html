@@ -49,7 +49,7 @@
 					</div>					
 					<a href="/people/new" class="btn btn-default navbar-link">
 						<i class="icon-plus"></i>
-						<span>Add client</span>						
+						<span class="not-phone">Add client</span>						
 					</a>
 					
 				</form>
@@ -58,74 +58,12 @@
 
 		<div class="col-sm-6">
 			<% followups.forEach(function(row) { %>
-			<% var overdueClass = row.overdue ? 'overdue' : ''; %>
-			<% var iconClass = 'icon-calendar'; %>
-			<% switch((row.nextContact.type || '').toLowerCase()) {
-				case 'call': iconClass = 'icon-phone'; break;
-				case 'meeting': iconClass = 'icon-group'; break;
-				case 'email': iconClass = 'icon-envelope'; break;
-			} %>
-			<div class="appointment <%= overdueClass %>">
-				<div class="col-xs-8">
-					<h3><%- row.firstName %> <%- row.lastName %></h3>
-
-					<address>
-						<strong><%- row.organization %></strong><br />
-						<% if(row.address) { %>
-							<% if(row.address.street) { %>
-								<%- row.address.street %>
-								<br />
-							<% } %>
-							<%- row.address.city %>
-							<% if(row.address.city && row.address.province) { print(', '); } %>
-							<%- row.address.province %>
-							<% if(row.address.city && row.address.province) { %>
-								<br />
-							<% } %>
-						<% } %>
-						<% if(row.email) { %>
-							<abbr title="Email">E:</abbr>
-							<a href="mailto:<%= row.email %>">
-								<%= row.email %>
-							</a>
-							<br />
-						<% } %>
-						<% if(row.phones) { %>
-							<% row.phones.forEach(function(phone) { %>
-								<abbr title="<%= phone.type%>"><%= phone.abbreviation %>:</abbr>
-								<a href="tel:<%= phone.number %>"><%= phone.number %></a>
-								<br />
-							<% }) %>						
-						<% } %>
-					</address>
-				</div>
-				<div class="col-xs-4" style="text-align: center">
-					<div class="icon-stack" style="margin-top: 20px; margin-bottom: 10px;">
-						<% if(row.nextContact.confirmed) { %>
-							<i class="icon-calendar-empty icon-stack-base"></i>
-							<i class="icon-border <%= iconClass %>"></i>
-						<% } else { %>
-							<i class="icon-stack-base <%= iconClass %>"></i>
-						<% } %>
-					</div>
-					<% if(row.nextContact.confirmed) { %>
-					<h4><%= row.nextContact.timeString %></h4>
-					<% } else { %>
-					<h4><%- row.nextContact.reason %></h4>
-					<% } %>
-					<% if(row.overdue) { %>
-					<h4><%= row.nextContact.dateString %></h4>
-					<% } %>
-					<!-- <div class="map" id="burlington-financial-map"></div>-->
-				</div>
-			</div>
+				<% print(row); %>
 			<% }); %>			
 		</div>
 
 		<script src="js/jquery-1.10.2.js"></script>
 		<script src="js/bootstrap.js"></script>
-		<script src="js/bootstrap-modal.js"></script>
-		<script src="js/bootstrap-modalmanager.js"></script>
 		<script src="//maps.googleapis.com/maps/api/js?key=AIzaSyCmVsKj8xNC1dLEWI0thHQlHB3rr1iHHIY&sensor=true"></script>
 		<script type="text/javascript">
 		function initialize() {
@@ -148,6 +86,13 @@
 				$form.find('input[type=hidden]').val(e.currentTarget.innerText);
 				$form.submit();
 			});
+
+			$(document).on('click', '.appointment', function(e) {
+				var $this = $(e.currentTarget),
+					url = $this.data('target');
+
+				window.location = url;
+			})
 		});
 		</script>
 	</body>

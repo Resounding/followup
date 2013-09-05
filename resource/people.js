@@ -8,10 +8,10 @@ function People(db) {
 }
 
 People.index = function(req, res){
-  database.view('people/lastName', function(err, dbRes) {
-    res.render('people', {
-      people: dbRes
-    });  
+  database.view('people/lastName', function(err, dbRes) {        
+      res.render('people', {
+        people: dbRes
+      });
   });  
 };
 
@@ -28,7 +28,11 @@ People.create = function(req, res){
 
 People.show = function(req, res){
   database.get(req.params.person, function(err, doc) {
-    res.render('people/show', doc);  
+    if(doc == null) {
+      res.send(404);
+    } else {
+      res.render('people/show', doc);  
+    }
   });
 };
 

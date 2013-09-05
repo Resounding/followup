@@ -21,8 +21,18 @@ body {
 .appointment.overdue h4 {
 	color: #f00;
 }
+.appointment address > div {
+	white-space: nowrap;
+	overflow-x: hidden;
+	text-overflow: ellipsis;
+}
 .map {
 	height: 135px;
+}
+
+/* extra-small */
+@media(max-width: 400px) {
+	.not-phone { display: none; }
 }
 
 /* small */

@@ -1,0 +1,63 @@
+<% var overdueClass = d.overdue ? 'overdue' : ''; %>
+
+<div class="appointment <%= overdueClass %>" data-target="<%= d.url %>">
+	<div class="col-xs-8">
+		<h3><%- d.firstName %> <%- d.lastName %></h3>
+
+		<address>
+			<strong><%- d.organization %></strong><br />
+			<% if(d.address) { %>
+				<% if(d.address.street) { %>
+					<%- d.address.street %>
+					<br />
+				<% } %>
+				<%- d.address.city %>
+				<% if(d.address.city && d.address.province) { print(', '); } %>
+				<%- d.address.province %>
+				<% if(d.address.city && d.address.province) { %>
+					<br />
+				<% } %>
+			<% } %>
+			<% if(d.email) { %>
+				<div>
+					<abbr title="Email">E:</abbr>
+					<a href="mailto:<%= d.email %>">
+						<%= d.email %>
+					</a>
+				</div>
+			<% } %>
+			<% if(d.phones) { %>
+				<% d.phones.forEach(function(phone) { %>
+					<div>
+						<abbr title="<%= phone.type%>"><%= phone.abbreviation %>:</abbr>
+						<a href="tel:<%= phone.number %>"><%= phone.number %></a>
+					</div>
+				<% }) %>						
+			<% } %>
+		</address>
+	</div>
+	<div class="col-xs-4" style="text-align: center">
+		<div class="icon-stack" style="margin-top: 20px; margin-bottom: 10px;">
+			<% if(d.nextContact.confirmed) { %>
+				<i class="icon-calendar-empty icon-stack-base"></i>
+				<i class="icon-border icon-phone"></i>
+			<% } else { %>
+				<i class="icon-stack-base icon-phone"></i>
+			<% } %>
+		</div>
+		
+		<% if(d.email) { %>
+		<h4>
+			<a href="mailto:<%= d.email %>">			
+				<%= d.email %>
+			</a>
+		</h4>
+		<% } %>
+
+		<% if(d.overdue) { %>
+			<h4><%= d.nextContact.dateString %></h4>
+		<% } %>
+		<!-- <div class="map" id="burlington-financial-map"></div>-->
+	</div>
+	<div class="clearfix"></div>
+</div>
