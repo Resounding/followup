@@ -29,16 +29,13 @@ body {
 .map {
 	height: 135px;
 }
+form { padding: 15px; }
 
 /* extra-small */
-@media(max-width: 400px) {
-	.not-phone { display: none; }
+@media(max-width: 768px) {
+	.not-phone { display: none; }	
 }
 
-/* small */
-@media (min-width: 768px) {
-
-}
 /* medium */
 @media (min-width: 992px) {
 
