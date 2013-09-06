@@ -23,55 +23,28 @@
 				<a class="navbar-brand" href="/"><i class="icon-beaker"></i> Followups</a>
 			</div>		
 			<div class="collapse navbar-collapse">
-				<form class="navbar-form" action="search" method="GET">
-					<div class="input-group col-xs-10 col-sm-6 col-lg-3">
-						<input type="search" name="q" class="form-control" placeholder="Search" />
-						<input type="hidden" name="tag" />
-						<span class="input-group-btn">									
-							<button type="submit" class="btn btn-default">
-								<i class="icon-search"></i>
-							</button>
-							<div class="btn-group">
-								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-									<i class="icon-tags"></i>
-									<span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu" role="menu">
-									<li><a href="#">&gt; $5M</a></li>
-									<li><a href="#">Fall Roadshow</a></li>
-									<li><a href="#">Golf</a></li>
-									<li class="divider"></li>
-									<li><a href="#">Show All</a></li>
-								</ul>
-							</div>
-						</span>
-					</div>					
-					<a href="/people/new" class="btn btn-default navbar-link">
-						<i class="icon-plus"></i>
-						<span class="not-phone">Add client</span>						
-					</a>
+				<ul class="nav navbar-nav">
 					
-				</form>
+				</ul>
 			</div>
-		</nav>
-		<nav class="navbar navbar-default navbar-fixed-top" style="top: 50px; padding: 15px; border-top: solid 1px #ddd; z-index: 1;">
-			<div class="btn-toolbar">
-				<div class="btn-group col-xs-6 col-sm-3">
-					<a href="/" class="btn btn-default">
-						<i class="icon-undo"></i>
-						Cancel
-					</a>
-					<button type="submit" class="btn btn-primary">
-						<i class="icon-save"></i>
-						Save
-					</button>
-				</div>
-				<h3 style="display: inline-block; margin: auto; padding: 0;" class="col-xs-6 col-sm-9">New Client</h3>
-			</div>
-		</nav>
+		</nav>		
 		
 		<form method="post" action="/people" class="form-horizontal" style="margin-top: 50px;">
-				
+			<nav class="navbar navbar-default navbar-fixed-top" style="top: 50px; padding: 15px; border-top: solid 1px #ddd; z-index: 1;">
+				<div class="btn-toolbar">
+					<div class="btn-group col-xs-6 col-sm-3">
+						<button type="submit" class="btn btn-primary">
+							<i class="icon-save"></i>
+							Save
+						</button>
+						<a href="/" class="btn btn-default">
+							<i class="icon-undo"></i>
+							Cancel
+						</a>
+					</div>
+					<h3 style="display: inline-block; margin: auto; padding: 0;" class="col-xs-6 col-sm-9">New Client</h3>
+				</div>
+			</nav>	
 			<input type="hidden" name="type" value="person" />
 
 			<div class="form-group">
@@ -109,24 +82,74 @@
 			</div>
 
 			<div class="form-group nextContact">
+				<input type="hidden" name="nextContact[type]" value="schedule" />
+				<input type="hidden" name="nextContact[date]" />
 				<label class="control-label col-xs-12 col-sm-3 col-md-1">&nbsp;</label>
 				<div class="checkbox">
 					<label>
-						<input type="checkbox" name="chkNextContact" checked> Create Followup
+						<input type="checkbox" checked> Create Followup
 					</label>
 				</div>
+				<label class="control-label col-xs-12 col-sm-3 col-md-1">Each:</label>
+				<select name="nextContact[interval]" class="col-xs-12 col-sm-6 col-md-4">
+					<option value="">Never</option>
+					<option value="w">Week</option>
+					<option value="m">Month</option>
+					<option value="q" selected>Quarter</option>
+					<option value="y">Year</option>
+				</select>
+				<div class="clearfix"></div>
+
+				<label class="control-label col-xs-12 col-sm-3 col-md-1">&nbsp;</label>
+				<span class="help-block col-xs-12 col-sm-6 col-md-4"></span>
+				<div class="clearfix"></div>
+
 				<label class="control-label col-xs-12 col-sm-3 col-md-1">Reason:</label>
 				<input type="text" name="nextContact[reason]" placeholder="Reason" class="col-xs-12 col-sm-6 col-md-4" />
 			</div>					
 		</form>
 		<script src="/js/jquery-1.10.2.js"></script>
 		<script src="/js/bootstrap.js"></script>
+		<script src="/js/moment.js"></script>
 		<script>
 			$(function() {
-				$('input[type=checkbox][name=chkNextContact]').on('click', function(e) {
+				$('.nextContact input[type=checkbox]').on('click', function(e) {
 					var disabled = !e.currentTarget.checked;
-					$('.nextContact input[type=text]').val('').prop('disabled', disabled);
+					$('.nextContact input,.nextContact select').prop('disabled', disabled);
+					e.currentTarget.disabled = false;
 				});
+
+				$('select[name="nextContact[interval]"]').on('change', function(e) {
+					var interval = $(e.currentTarget).val(),
+						date = moment(),
+						isoDate = '',
+						dateDisplay = 'Don\'t follow up';
+					switch(interval) {
+						case 'w':
+							date.add('w', 1);
+							break;
+						case 'm':
+							date.add('M', 1);
+							break;
+						case 'q':
+							date.add('M', 3);
+							break;
+						case 'y':
+							date.add('y', 1);
+							break;
+						default:
+							date = null;
+					}
+
+					if(date) {
+						var format = date.year() == new Date().getFullYear() ? 'MMM D' : 'MMM D, YYYY';
+						dateDisplay = 'Next contact scheduled for ' + date.format(format);
+						isoDate = date.format('YYYY-MM-DD hh:mm A');
+					}
+
+					$('.nextContact .help-block').html(dateDisplay);
+					$('.nextContact input[name="nextContact[date]"]').val(isoDate);
+				}).change();
 			});
 		</script>
 	</body>

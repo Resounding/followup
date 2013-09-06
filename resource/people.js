@@ -22,7 +22,7 @@ People.new = function(req, res){
 People.create = function(req, res){
   database.save(req.body, function(err, dbRes) {
     var id = dbRes._id;
-    res.redirect('/people/' + id);
+    res.redirect('/');
   });
 };
 

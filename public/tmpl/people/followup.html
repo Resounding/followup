@@ -4,13 +4,60 @@
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE-edge">
-		<title>Edit person</title>
+		<title>Client Followup</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans">
+		<link rel="stylesheet" href="/css/bootstrap.css">
+		<link rel="stylesheet" href="/css/bootstrap-modal.css">
+		<link rel="stylesheet" href="/css/font-awesome.css">
+		<link rel="stylesheet" href="/css/followup.css">
 	</head>
 	<body>
-		<a href="/">Home</a>
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="/"><i class="icon-beaker"></i> Followups</a>
+			</div>		
+			<div class="collapse navbar-collapse">
+				<ul class="nav navbar-nav pull-right">
+					<li>
+						<a href="/people/<%= _id %>/edit">
+							<i class="icon-edit"></i>
+							Edit Contact
+						</a>
+					</li>
+					<li>
+						<a href="/people/<%= _id %>/delete">
+							<i class="icon-trash"></i>
+							Delete Contact
+						</a>
+					</li>
+				</ul>
+			</div>
+		</nav>	
 
 		<form method="post" action="/people/<%= _id %>">
+			<nav class="navbar navbar-default navbar-fixed-top" style="top: 50px; padding: 15px; border-top: solid 1px #ddd; z-index: 1;">
+				<div class="btn-toolbar">
+					<div class="btn-group col-xs-6 col-sm-3">
+						<button type="submit" class="btn btn-primary">
+							<i class="icon-save"></i>
+							Save
+						</button>
+						<a href="/" class="btn btn-default">
+							<i class="icon-undo"></i>
+							Cancel
+						</a>
+					</div>
+					<h3 style="display: inline-block; margin: auto; padding: 0;" class="col-xs-6 col-sm-9">Client Followup</h3>
+				</div>
+			</nav>
+
 			<input type="hidden" name="_method" value="PUT" />
 			<input type="hidden" name="type" value="<%= type %>" />
 			<input type="hidden" name="_rev" value="<%= _rev %>" />
@@ -22,6 +69,14 @@
 			<p>Next followup:</p>
 
 			<input type="submit" />
-		</form>		
+		</form>	
+		<script src="/js/jquery-1.10.2.js"></script>
+		<script src="/js/bootstrap.js"></script>
+		<script src="/js/moment.js"></script>
+		<script>
+			$(function() {
+
+			});
+		</script>	
 	</body>
 </html>
