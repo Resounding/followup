@@ -26,6 +26,14 @@ body {
 	overflow-x: hidden;
 	text-overflow: ellipsis;
 }
+.appointment > .well {
+	margin-bottom: 0;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.appointment > .well h4 {
+	display: inline;
+}
 .map {
 	height: 135px;
 }
