@@ -10,6 +10,7 @@
 		<link rel="stylesheet" href="/css/bootstrap.css">
 		<link rel="stylesheet" href="/css/bootstrap-modal.css">
 		<link rel="stylesheet" href="/css/font-awesome.css">
+		<link rel="stylesheet" href="/css/select2.css">
 		<link rel="stylesheet" href="/css/followup.css">
 	</head>
 	<body>
@@ -81,6 +82,12 @@
 				<div class="clearfix"></div>
 			</div>
 
+			<div class="form-group">
+				<label class="control-label col-xs-12 col-sm-3 col-md-1">Tags:</label>
+				<input type="hidden" name="tags" class="col-xs-12 col-sm-6 col-md-4" />
+				<div class="clearfix"></div>
+			</div>
+
 			<div class="form-group nextContact">
 				<input type="hidden" name="nextContact[type]" value="schedule" />
 				<input type="hidden" name="nextContact[date]" />
@@ -111,6 +118,7 @@
 		<script src="/js/jquery-1.10.2.js"></script>
 		<script src="/js/bootstrap.js"></script>
 		<script src="/js/moment.js"></script>
+		<script src="/js/select2.js"></script>
 		<script>
 			$(function() {
 				$('.nextContact input[type=checkbox]').on('click', function(e) {
@@ -150,6 +158,10 @@
 					$('.nextContact .help-block').html(dateDisplay);
 					$('.nextContact input[name="nextContact[date]"]').val(isoDate);
 				}).change();
+
+				$('input[name=tags]').select2({
+					tags: ['Golf', 'Oct Roadshow', 'Turtle funds']
+				})
 			});
 		</script>
 	</body>

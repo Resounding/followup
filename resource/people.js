@@ -20,7 +20,16 @@ People.new = function(req, res){
 };
 
 People.create = function(req, res){
-  database.save(req.body, function(err, dbRes) {
+
+  var doc = req.body,
+      tags = req.body.tags? req.body.tags.split(',') : [];
+
+  doc.tags = tags;
+
+  console.log('original request: ' + util.inspect(req.body));
+  console.log('document: ' + util.inspect(doc));
+
+  database.save(doc, function(err, dbRes) {
     var id = dbRes._id;
     res.redirect('/');
   });
@@ -59,7 +68,7 @@ People.destroy = function(req, res){
       rev = req.body._rev;
 
   database.remove(id, rev, function() {
-    res.redirect('/people');
+    res.redirect('/');
   });
 };
 
