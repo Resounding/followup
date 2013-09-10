@@ -1,6 +1,7 @@
 var util = require('util'),
     cons = require('consolidate'),
     _ = require('underscore'),
+    toViewModel = require('../public/js/util/toViewModel'),
     database;
 
 function People(db) {
@@ -94,6 +95,9 @@ People.followup = function(req, res){
             var tags = (doc.tags || []).join(',');
             doc.all_tags = all_tags;
             doc.tags = tags;
+
+            var viewModel = toViewModel(doc);
+
             res.render('people/followup', doc);
         });
     });
