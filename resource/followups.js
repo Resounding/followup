@@ -1,6 +1,7 @@
 var util = require('util'),
     cons = require('consolidate'),
     moment = require('moment'),
+    _ = require('underscore'),
     database;
 
 function Followups(db) {
@@ -10,14 +11,14 @@ function Followups(db) {
 }
 
 Followups.index = function(req, res){
-  database.view('people/followups', function(err, dbRes) {  	
+    
+    database.view('people/followups', function(err, dbRes) {  	
 
     var rows = (Array.isArray(dbRes) ? dbRes : []).map(toHtml);
-
-    res.render('followups', {
-      followups: rows
+        res.render('followups', {
+            followups: rows
+        });  
     });  
-  });  
 };
 
 var meetingTmpl,

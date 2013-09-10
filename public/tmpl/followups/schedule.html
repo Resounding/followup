@@ -28,10 +28,12 @@
 			<% } %>
 			<% if(d.phones) { %>
 				<% d.phones.forEach(function(phone) { %>
-					<div>
-						<abbr title="<%= phone.type%>"><%= phone.abbreviation %>:</abbr>
-						<a href="tel:<%= phone.number %>"><%= phone.number %></a>
-					</div>
+					<% if(phone.number) { %>
+						<div>
+							<abbr title="<%= phone.type%>"><%= phone.abbreviation %>:</abbr>
+							<a href="tel:<%= phone.number %>"><%= phone.number %></a>
+						</div>
+					<% } %>
 				<% }) %>						
 			<% } %>
 		</address>

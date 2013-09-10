@@ -1,5 +1,6 @@
 var util = require('util'),
     cons = require('consolidate'),
+    _ = require('underscore'),
     database;
 
 function People(db) {
@@ -16,7 +17,17 @@ People.index = function(req, res){
 };
 
 People.new = function(req, res){
-  res.render('people/new');
+    database.view('people/tags', function(tagsErr, dbRes) {
+        
+        var tags = dbRes.map(function(tag) {
+            return "'" + tag + "'";
+        });
+        tags = _.uniq(tags).join(',');
+        
+        res.render('people/new', {
+            tags: tags
+        });
+    });
 };
 
 People.create = function(req, res){
@@ -25,9 +36,6 @@ People.create = function(req, res){
       tags = req.body.tags? req.body.tags.split(',') : [];
 
   doc.tags = tags;
-
-  console.log('original request: ' + util.inspect(req.body));
-  console.log('document: ' + util.inspect(doc));
 
   database.save(doc, function(err, dbRes) {
     var id = dbRes._id;
@@ -73,9 +81,22 @@ People.destroy = function(req, res){
 };
 
 People.followup = function(req, res){
-	database.get(req.params.person, function(err, doc) {
-    res.render('people/followup', doc);
-  });
+     database.view('people/tags', function(tagsErr, dbRes) {
+
+        function addQuote(tag) {
+            return "'" + tag + "'";
+        }
+
+        var all_tags = _.uniq(dbRes.map(addQuote)).join(',');
+
+        database.get(req.params.person, function(err, doc) {
+
+            var tags = (doc.tags || []).join(',');
+            doc.all_tags = all_tags;
+            doc.tags = tags;
+            res.render('people/followup', doc);
+        });
+    });
 };
 
 module.exports = People;

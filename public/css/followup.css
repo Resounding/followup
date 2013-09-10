@@ -49,19 +49,28 @@ form .select2-container {
 	color: #777;
 }
 
-.navbar-nav > li > form > .btn-link:hover {
+.navbar-nav > li > form > .btn-link:hover,
+.navbar-nav > li > form > .btn-link:focus {
 	color: #333;
 	text-decoration: none;
 }
 
 /* extra-small */
-@media(max-width: 768px) {
-	.not-phone { display: none; }	
+@media (max-width: 767px) {
+	.not-phone { display: none; }
+
+	.navbar .btn-toolbar .btn-group { padding: 0; }
+
+	.navbar .btn-toolbar .btn { font-size: 10px; }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+	.navbar .btn-toolbar .btn-group { padding: 0; }
 }
 
 /* medium */
-@media (min-width: 992px) {
-
+@media (min-width: 992px) and (max-width: 1199px) {
+	
 }
 
 /* large */

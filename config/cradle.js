@@ -25,6 +25,13 @@ var PEOPLE_VIEW_NAME = '_design/people',
 		if(doc.type === 'person' && doc.nextContact) {
 			emit([!doc.nextContact.confirmed,doc.nextContact.date], doc);
 		}
+	},
+	tagsView = function(doc) {
+		if(Array.isArray(doc.tags)) {
+			doc.tags.forEach(function(tag) {
+				emit(tag.replace(/\ /g, '').toLowerCase(), tag);
+			});
+		}
 	};
 
 db.get(PEOPLE_VIEW_NAME, function(err, doc) {
@@ -39,6 +46,9 @@ db.get(PEOPLE_VIEW_NAME, function(err, doc) {
 				},
 				followups: {
 					map: followupsView.toString()
+				},
+				tags: {
+					map: tagsView.toString()
 				}
 			}
 		}, function(saveErr, result) {
