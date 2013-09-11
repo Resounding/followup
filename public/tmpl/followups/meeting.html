@@ -53,6 +53,8 @@
 		<% if(d.overdue) { %>
 			<h4><%= d.nextContact.dateString %></h4>
 		<% } %>
+
+		<h5><%- d.nextContact.reason %></h5>
 		<!-- <div class="map" id="burlington-financial-map"></div>-->
 	</div>
 	<div class="clearfix"></div>

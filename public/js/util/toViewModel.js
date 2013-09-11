@@ -14,7 +14,7 @@ function toViewModel(doc) {
         var date = moment(nextContact.date);
         nextContact.dateString = date.format('MMM D');
         nextContact.timeString = date.format('h:mm A');
-        nextContact.dateTimeString = date.format('MMM d, YYYY h:mm a');
+        nextContact.dateTimeString = date.format('MMM d, YYYY h:mm A');
         if(date.toDate() < today) {
             viewModel.overdue = true;
         }

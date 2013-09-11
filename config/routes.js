@@ -14,6 +14,7 @@ function Route(app) {
 	var peopleResource = app.resource('people', people);
 	// add the custom route /people/:id/followup
 	peopleResource.map('get', 'followup', people.followup);
+	peopleResource.map('put', 'followup', people.recordContact);
 }
 
 module.exports = Route;

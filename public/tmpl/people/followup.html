@@ -47,7 +47,7 @@
 			</div>
 		</nav>	
 
-		<form method="post" action="/people/<%= _id %>" style="margin-top: 50px;">
+		<form method="post" action="/people/<%= _id %>/followup" style="margin-top: 50px;">
 			<nav class="navbar navbar-default navbar-fixed-top" style="top: 50px; padding: 15px; border-top: solid 1px #ddd; z-index: 1;">
 				<div class="btn-toolbar">
 					<div class="btn-group col-xs-7 col-sm-3">
@@ -65,11 +65,7 @@
 			</nav>
 
 			<input type="hidden" name="_method" value="PUT" />
-			<input type="hidden" name="type" value="<%= type %>" />
 			<input type="hidden" name="_rev" value="<%= _rev %>" />
-
-			<input type="hidden" name="firstName" value="<%= firstName %>" />
-			<input type="hidden" name="lastName" value="<%= lastName %>" />
 
 			<fieldset>
 				<legend><%- firstName %> <%- lastName %></legend>
@@ -118,12 +114,14 @@
 				<legend>Record contact:</legend>
 
 				<div class="form-group">
+					<input type="hidden" name="contact[type]" value="<%= nextContact.type %>" />
 					<label class="control-label col-xs-12 col-sm-3 col-md-1">Date/Time:</label>
-					<div class="input-append date col-xs-12 col-sm-3 col-lg-2" data-date="<%= nextContact.dateTimeString %>" data-date-format="M d, yyyy h:mm p" style="padding-left: 0;">
+					<div class="input-append date col-xs-12 col-sm-3 col-lg-2" data-date="<%= nextContact.dateTimeString %>" data-date-format="M d, yyyy h:mm P" style="padding-left: 0;">
 						<input type="text" name="contact[date]" value="<%= nextContact.dateTimeString %>" class="form-control" style="width: -webkit-calc(100% - 25px); width: calc(100% - 25px); display: inline-block;">
 						<span class="add-on"><i class="icon-th"></i></span>
 					</div>
 				</div>
+				<div class="clearfix"></div>
 				<div class="form-group">
 					<label class="control-label col-xs-12 col-sm-3 col-md-1">Notes:</label>
 					<textarea name="contact[notes]" rows="3" class="form-control col-xs-12 col-sm-6 col-md-4"></textarea>
@@ -134,6 +132,47 @@
 
 			<fieldset>
 				<legend>Next followup:</legend>
+				<div class="form-group">
+					<label class="radio-inline">
+						<input type="radio" name="nextContact[type]" value="schedule" checked />
+						<i class="icon-calendar"></i>
+						Schedule
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="nextContact[type]" value="meeting" />
+						<i class="icon-group"></i>
+						Meeting
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="nextContact[type]" value="call" />
+						<i class="icon-phone"></i>
+						Call
+					</label>
+					<label class="radio-inline">
+						<i class="icon-envelope"></i>
+						<input type="radio" name="nextContact[type]" value="email" />
+						Email
+					</label>
+
+					<div class="checkbox confirmGroup hide">
+						<label>
+							<input type="checkbox" name="nextContact[confirmed]" value="true" />
+							Confirmed
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-xs-12 col-sm-3 col-md-1">Date/Time:</label>
+					<div class="input-append date col-xs-12 col-sm-3 col-lg-2" data-date="<%= nextContact.dateTimeString %>" data-date-format="M d, yyyy h:mm P" style="padding-left: 0;">
+						<input type="text" name="nextContact[date]" value="<%= nextContact.dateTimeString %>" class="form-control" style="width: -webkit-calc(100% - 25px); width: calc(100% - 25px); display: inline-block;">
+						<span class="add-on"><i class="icon-th"></i></span>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+				<div class="form-group">
+					<label class="control-label col-xs-12 col-sm-3 col-md-1">Reason:</label>
+					<input type="text" name="nextContact[reason]" placeholder="Reason" class="form-control col-xs-12 col-sm-6 col-md-4" />
+				</div>
 			</fieldset>
 
 			<input type="submit" />
@@ -157,6 +196,15 @@
 				})
 
 				$('div.date').datetimepicker();
+
+				$(document).on('click', 'input[type=radio][name="nextContact[type]"]', function(e) {
+					var canConfirm = (e.currentTarget.value === 'meeting' || e.currentTarget.value === 'call'),
+						method = canConfirm ? 'removeClass' : 'addClass',
+						$confirmContainer = $('.confirmGroup');
+
+					$confirmContainer[method]('hide');
+					$confirmContainer.find('input').prop('checked', canConfirm);
+				});
 			});
 		</script>	
 	</body>

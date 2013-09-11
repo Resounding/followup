@@ -103,4 +103,30 @@ People.followup = function(req, res){
     });
 };
 
+People.recordContact = function(req, res) {    
+    
+    database.get(req.params.person, function(err, doc) {
+
+        var id = doc._id,
+            body = req.body;
+
+        doc.tags = body.tags.split(',');
+
+        doc.contacts = doc.contacts || [];
+        doc.contacts.push(body.contact);
+
+        body.nextContact.confirmed = !!body.nextContact.confirmed;
+        doc.nextContact = body.nextContact;
+        
+        database.save(id, doc, function(err, dbRes) {
+            if(err) {
+                console.log('Error saving: ' + util.inspect(err));
+                res.send(500);
+            } else {
+                res.redirect('/');
+            }
+        });
+    });
+};
+
 module.exports = People;
