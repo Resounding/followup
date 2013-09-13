@@ -56,7 +56,7 @@
 			</div>
 		</nav>
 
-		<div class="col-sm-6">
+		<div class="row js-masonry">
 			<% followups.forEach(function(row) { %>
 				<% print(row); %>
 			<% }); %>			
@@ -64,21 +64,8 @@
 
 		<script src="js/jquery-1.10.2.js"></script>
 		<script src="js/bootstrap.js"></script>
-		<script src="//maps.googleapis.com/maps/api/js?key=AIzaSyCmVsKj8xNC1dLEWI0thHQlHB3rr1iHHIY&sensor=true"></script>
+		<script src="js/masonry.pkgd.js"></script>
 		<script type="text/javascript">
-		function initialize() {
-			var mapOptions = {
-				center: new google.maps.LatLng(43.3561686, -79.7742005),
-					zoom: 15,
-					mapTypeId: google.maps.MapTypeId.ROADMAP,
-					streetViewControl: false,
-					mapTypeControl: false
-			};
-			var map = new google.maps.Map(document.getElementById('burlington-financial-map'), mapOptions);
-		}
-		
-		google.maps.event.addDomListener(window, 'load', initialize);
-
 		$(function() {
 			$(document).on('click', 'form[action=search] ul.dropdown-menu a', function(e) {
 				debugger;
@@ -92,7 +79,7 @@
 					url = $this.data('target');
 
 				window.location = url;
-			})
+			});
 		});
 		</script>
 	</body>

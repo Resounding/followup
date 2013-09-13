@@ -29,6 +29,29 @@ function toViewModel(doc) {
         phone.abbreviation = abbreviation;
         phone.type = abbreviation + type.substring(1);
     });
+
+    if(!Array.isArray(viewModel.contacts)) {
+        viewModel.contacts = [];
+    }
+
+    
+    viewModel.contacts.forEach(function(contact) {
+        var date = moment(contact.date);
+        contact.dateTimeString = date.format('MMM d, YYYY h:mm A');
+        var icon = 'icon-calendar';
+        switch(contact.type) {
+            case 'meeting':
+                icon = 'icon-group';
+                break;
+            case 'call':
+                icon = 'icon-phone';
+                break;
+            case 'email':
+                icon = 'icon-envelope';
+                break;
+        }
+        contact.icon = icon;
+    });
   }
   
   return viewModel;

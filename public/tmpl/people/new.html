@@ -142,7 +142,7 @@
 					if(date) {
 						var format = date.year() == new Date().getFullYear() ? 'MMM D' : 'MMM D, YYYY';
 						dateDisplay = 'Next contact scheduled for ' + date.format(format);
-						isoDate = date.format('YYYY-MM-DD hh:mm A');
+						isoDate = date.format();
 					}
 
 					$('.nextContact .help-block').html(dateDisplay);
