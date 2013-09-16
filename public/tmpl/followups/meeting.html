@@ -1,6 +1,7 @@
 <% var overdueClass = d.overdue ? 'overdue' : ''; %>
+<% var confirmedClass = d.nextContact.confirmed ? 'confirmed' : ''; %>
 
-<div class="appointment <%= overdueClass %> col-xs-12 col-sm-6 col-md-4 col-lg-3" data-target="<%= d.url %>">
+<div class="appointment <%= overdueClass %> <%= confirmedClass %> col-xs-12 col-sm-6 col-md-4 col-lg-3" data-target="<%= d.url %>">
 	<div class="col-xs-8">
 		<h3><%- d.firstName %> <%- d.lastName %></h3>
 
@@ -55,7 +56,7 @@
 		<% } %>
 
 		<h5><%- d.nextContact.reason %></h5>
-		<!-- <div class="map" id="burlington-financial-map"></div>-->
+		<div class="map" data-address="<%- d.address.street %><%- d.address.city%>, <%- d.address.province %>"></div>
 	</div>
 	<div class="clearfix"></div>
 	

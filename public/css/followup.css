@@ -13,12 +13,19 @@ body {
 .appointment:hover {
 	background-color: #eee;
 }
-.appointment.overdue {
-	border-color: #f00;
+.appointment.overdue,
+.appointment.overdue > .well,
+.appointment.overdue.confirmed,
+.appointment.overdue.confirmed > .well {
+	color: #b94a48;
+	background-color: #f2dede;
+	border-color: #eed3d7;
 }
-.appointment.overdue .icon-stack,
-.appointment.overdue h4 {
-	color: #f00;
+.appointment.confirmed,
+.appointment.confirmed > .well {
+	color: #468847;
+	background-color: #dff0d8;
+	border-color: #d6e9c6;
 }
 .appointment address > div {
 	white-space: nowrap;

@@ -23,7 +23,12 @@ var PEOPLE_VIEW_NAME = '_design/people',
 	},
 	followupsView = function(doc) {
 		if(doc.type === 'person' && doc.nextContact) {
-			emit([!doc.nextContact.confirmed,doc.nextContact.date], doc);
+			var now = new Date().getTime(),
+			    date = Date.parse(doc.nextContact.date) || now,
+				overdue = date < now,
+				confirmed = !!doc.nextContact.confirmed;
+
+			emit([!overdue, !confirmed, date], doc);
 		}
 	},
 	tagsView = function(doc) {
