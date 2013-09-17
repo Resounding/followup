@@ -13,20 +13,6 @@ body {
 .appointment:hover {
 	background-color: #eee;
 }
-.appointment.overdue,
-.appointment.overdue > .well,
-.appointment.overdue.confirmed,
-.appointment.overdue.confirmed > .well {
-	color: #b94a48;
-	background-color: #f2dede;
-	border-color: #eed3d7;
-}
-.appointment.confirmed,
-.appointment.confirmed > .well {
-	color: #468847;
-	background-color: #dff0d8;
-	border-color: #d6e9c6;
-}
 .appointment address > div {
 	white-space: nowrap;
 	overflow-x: hidden;
@@ -68,6 +54,41 @@ form .select2-container {
 	.navbar .btn-toolbar .btn-group { padding: 0; }
 
 	.navbar .btn-toolbar .btn { font-size: 10px; }
+
+	.panel {
+		margin-bottom: 0;
+	}
+	.panel-heading {
+		display: none;
+	}
+	.panel-body {
+		padding: 0;
+	}
+
+	.appointment {
+		margin-bottom: 10px;
+	}
+
+	.panel-danger .appointment,
+	.panel-danger .appointment > .well {
+		color: #b94a48;
+		background-color: #f2dede;
+		border-color: #eed3d7;
+	}
+
+	.panel-success .appointment,
+	.panel-success .appointment > .well {
+		color: #468847;
+		background-color: #dff0d8;
+		border-color: #d6e9c6;
+	}
+
+	.panel-info .appointment,
+	.panel-info .appointment > .well {
+		color: #3a87ad;
+		background-color: #d9edf7;
+		border-color: #bce8f1;
+	}
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
