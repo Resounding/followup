@@ -56,12 +56,45 @@
 			</div>
 		</nav>
 
-		<div class="row js-masonry">
-			<% followups.forEach(function(row) { %>
-				<% print(row); %>
-			<% }); %>			
-		</div>
+		<% if(followups.overdue.length) { %>
+			<div class="row panel panel-danger">
+				<div class="panel-heading">
+					<h4 class="panel-title">Overdue</h4>
+				</div>
+				<div class="panel-body">
+					<% followups.overdue.forEach(function(row) { %>
+						<% print(row); %>
+					<% }); %>
+				</div>
+			</div>
+		<% } %>
 
+		<% if(followups.confirmed.length) { %>
+			<div class="row panel panel-success">
+				<div class="panel-heading">
+					<h4 class="panel-title">Confirmed Appointments</h4>
+				</div>
+				<div class="panel-body">
+					<% followups.confirmed.forEach(function(row) { %>
+						<% print(row); %>
+					<% }); %>
+				</div>
+			</div>
+		<% } %>
+
+		<% if(followups.scheduled.length) { %>
+			<div class="row panel panel-info">
+				<div class="panel-heading">
+					<h4 class="panel-title">Scheduled Followups</h4>
+				</div>
+				<div class="panel-body">
+					<% followups.scheduled.forEach(function(row) { %>
+						<% print(row); %>
+					<% }); %>
+				</div>
+			</div>
+		<% } %>
+		
 		<script src="js/jquery-1.10.2.js"></script>
 		<script src="js/bootstrap.js"></script>
 		<script src="js/masonry.pkgd.js"></script>

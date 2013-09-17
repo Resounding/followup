@@ -12,11 +12,37 @@ function Followups(db) {
 
 Followups.index = function(req, res){
     
-    database.view('people/followups', function(err, dbRes) {  	
+    database.view('people/followups', function(err, dbRes) {
 
-    var rows = (Array.isArray(dbRes) ? dbRes : []).map(toHtml);
+    var now = new Date().getTime(),
+        rows = (Array.isArray(dbRes) ? dbRes : []),
+        followups = { 
+            confirmed: [],
+            overdue: [],
+            scheduled: []
+        };
+
+        rows.forEach(function(row) {
+
+            var overdue = (Date.parse(row.nextContact.date) || now) < now;
+
+            row.overdue = overdue;
+            
+            var html = toHtml(row);
+
+            console.log("confirmed: " + row.nextContact.confirmed + ", overdue: " + overdue);
+
+            if(overdue) {
+                followups.overdue.push(html);
+            } else if(row.nextContact.confirmed) {
+                followups.confirmed.push(html);
+            } else {
+                followups.scheduled.push(html);
+            }
+        });
+
         res.render('followups', {
-            followups: rows
+            followups: followups
         });  
     });  
 };

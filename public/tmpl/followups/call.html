@@ -49,19 +49,23 @@
 			<% } %>
 		</div>
 		
+		
+
+		<% if(d.nextContact.confirmed) { %>
+			<h4><%= d.nextContact.timeString %></h4>
+		<% } else if(d.overdue) { %>
+			<h4><%= d.nextContact.dateString %></h4>
+		<% } %>
+
+		<h5><%- d.nextContact.reason %></h5>
+
 		<% if(d.phones.length) { %>
 		<h4>
 			<a href="tel:<%= d.phones[0].number %>">
 				<%= d.phones[0].number %>
 			</a>
 		</h4>
-		<% } %>
-
-		<% if(d.overdue) { %>
-			<h4><%= d.nextContact.dateString %></h4>
-		<% } %>
-
-		<h5><%- d.nextContact.reason %></h5>
+		<% } %>		
 	</div>
 	<div class="clearfix"></div>
 	
