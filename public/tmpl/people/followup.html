@@ -176,11 +176,12 @@
 						</label>
 					</div>
 				</div>
+				
 				<div class="form-group dateSection">
-					<input type="hidden" name="nextContact[date]" />
+					<input type="hidden" name="nextContact[date]" value="<%= nextContact.nextScheduledDate %>" />
 					<label class="control-label col-xs-12 col-sm-3 col-md-2">Date/Time:</label>
 					<div class="input-append date col-xs-12 col-sm-3 col-lg-2" data-date-format="M d, yyyy h:mm P" style="padding-left: 0;">
-						<input type="text" class="form-control" style="width: -webkit-calc(100% - 25px); width: calc(100% - 25px); display: inline-block;">
+						<input type="text" class="form-control" style="width: -webkit-calc(100% - 25px); width: calc(100% - 25px); display: inline-block;" value="<%= nextContact.nextScheduledDateString %>" />
 						<span class="add-on"><i class="icon-th"></i></span>
 					</div>
 				</div>

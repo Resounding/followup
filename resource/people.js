@@ -98,7 +98,7 @@ People.followup = function(req, res){
 
             var viewModel = toViewModel(doc);
 
-            res.render('people/followup', doc);
+            res.render('people/followup', viewModel);
         });
     });
 };

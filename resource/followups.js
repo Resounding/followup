@@ -30,8 +30,6 @@ Followups.index = function(req, res){
             
             var html = toHtml(row);
 
-            console.log("confirmed: " + row.nextContact.confirmed + ", overdue: " + overdue);
-
             if(overdue) {
                 followups.overdue.push(html);
             } else if(row.nextContact.confirmed) {

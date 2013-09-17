@@ -9,7 +9,8 @@ function toViewModel(doc) {
   viewModel.url = 'people/' + doc._id + '/followup';
 
   if(doc.nextContact) {
-    var nextContact = doc.nextContact;
+    var nextContact = doc.nextContact,
+        interval = doc.interval;
     if(nextContact.date) {
         var date = moment(nextContact.date);
         nextContact.dateString = date.format('MMM D');
@@ -17,6 +18,29 @@ function toViewModel(doc) {
         nextContact.dateTimeString = date.format('MMM d, YYYY h:mm A');
         if(date.toDate() < today) {
             viewModel.overdue = true;
+        }
+
+        var nextScheduled = null,
+            nextScheduledString = '';
+
+        switch(interval) {
+            case 'w':
+                nextScheduled = date.add('w', 1);
+                break;
+            case 'm':
+                nextScheduled = date.add('M', 1);
+                break;
+            case 'q':
+                nextScheduled = date.add('M', 3);
+                break;
+            case 'y':
+                nextScheduled = date.add('y', 1);
+                break;
+        }
+
+        if(nextScheduled) {
+            nextContact.nextScheduledDateString = nextScheduled.format('MMM d, YYYY h:mm A');
+            nextContact.nextScheduledDate = nextScheduled.format();
         }
     }
   }
