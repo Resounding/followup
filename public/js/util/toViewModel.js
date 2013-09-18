@@ -1,4 +1,5 @@
-var moment = require('moment');
+var moment = require('moment'),
+    util = require('util');
 
 function toViewModel(doc) {
 
@@ -15,10 +16,12 @@ function toViewModel(doc) {
         var date = moment(nextContact.date);
         nextContact.dateString = date.format('MMM D');
         nextContact.timeString = date.format('h:mm A');
-        nextContact.dateTimeString = date.format('MMM d, YYYY h:mm A');
+        nextContact.dateTimeString = date.format('MMM D, YYYY h:mm A');
         if(date.toDate() < today) {
             viewModel.overdue = true;
         }
+
+        console.log('date: ' + util.inspect(nextContact.date));
 
         var nextScheduled = null,
             nextScheduledString = '';
@@ -39,7 +42,7 @@ function toViewModel(doc) {
         }
 
         if(nextScheduled) {
-            nextContact.nextScheduledDateString = nextScheduled.format('MMM d, YYYY h:mm A');
+            nextContact.nextScheduledDateString = nextScheduled.format('MMM D, YYYY h:mm A');
             nextContact.nextScheduledDate = nextScheduled.format();
         }
     }
