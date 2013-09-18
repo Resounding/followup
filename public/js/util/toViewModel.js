@@ -21,8 +21,6 @@ function toViewModel(doc) {
             viewModel.overdue = true;
         }
 
-        console.log('date: ' + util.inspect(nextContact.date));
-
         var nextScheduled = null,
             nextScheduledString = '';
 
