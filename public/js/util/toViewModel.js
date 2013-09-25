@@ -58,7 +58,6 @@ function toViewModel(doc) {
     if(!Array.isArray(viewModel.contacts)) {
         viewModel.contacts = [];
     }
-
     
     viewModel.contacts.forEach(function(contact) {
         var date = moment(contact.date);

@@ -33,8 +33,8 @@ People.new = function(req, res){
 
 People.create = function(req, res){
 
-  var doc = req.body,
-      tags = req.body.tags? req.body.tags.split(',') : [];
+  var doc = req.body || { },
+      tags = doc.tags? doc.tags.split(',') : [];
 
   doc.tags = tags;
 
@@ -45,6 +45,7 @@ People.create = function(req, res){
 };
 
 People.show = function(req, res){
+
   database.get(req.params.person, function(err, doc) {
     if(doc == null) {
       res.send(404);
@@ -61,7 +62,7 @@ People.edit = function(req, res){
 };
 
 People.update = function(req, res){
-  var doc = req.body,
+  var doc = req.body || req.query,
       id = req.params.person,
       rev = doc._rev;
 
@@ -74,7 +75,8 @@ People.update = function(req, res){
 
 People.destroy = function(req, res){
   var id = req.params.person,
-      rev = req.body._rev;
+      body = req.body || req.query,
+      rev = body._rev;
 
   database.remove(id, rev, function() {
     res.redirect('/');
@@ -82,6 +84,7 @@ People.destroy = function(req, res){
 };
 
 People.followup = function(req, res){
+
      database.view('people/tags', function(tagsErr, dbRes) {
 
         function addQuote(tag) {
@@ -98,23 +101,25 @@ People.followup = function(req, res){
 
             var viewModel = toViewModel(doc);
 
-            res.render('people/followup', viewModel);
+            res.render('people/followup', viewModel);            
         });
     });
 };
 
 People.recordContact = function(req, res) {    
-    
+
     database.get(req.params.person, function(err, doc) {
 
         var id = doc._id,
-            body = req.body;
+            body = req.body || req.query,
+            tags = body.tags || [];
 
-        doc.tags = body.tags.split(',');
+        doc.tags = tags.split(',');
 
         doc.contacts = doc.contacts || [];
         doc.contacts.push(body.contact);
 
+        body.nextContact = body.nextContact || {};
         body.nextContact.confirmed = !!body.nextContact.confirmed;
         doc.nextContact = body.nextContact;
         

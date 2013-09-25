@@ -24,5 +24,18 @@
 			"username": "user",
 			"password": "password"
 		}
+	},
+	"test": {
+		"url": "http://localhost",
+		"port": 5984,
+		"database": "followup_test",
+		"user": {
+			"username": "cliffeh",
+			"password": "N!chir1n"
+		},
+		"admin": {
+			"username": "cliffeh",
+			"password": "N!chir1n"
+		}
 	}
 }

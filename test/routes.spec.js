@@ -1,10 +1,47 @@
 var assert = require('assert'),
 	request = require('supertest'),
 	app = require('./setup'),
-	routes = require('../config/routes')(app);
+	routes = require('../config/routes')(app),
+	util = require('util'),
+	moment = require('moment');
 
 
 describe('People routes', function() {
+	before(function(done) {
+		this.db = require('../config/cradle').on('ready', done);
+	});
+
+	after(function(done) {
+		this.db.destroy(done);
+	});
+
+	beforeEach(function(done) {
+		var that = this;
+
+		this.db.save({
+			type: 'person',
+			firstName: 'Test',
+			lastName: 'User',
+			organization: 'Test Org',
+			nextContact: {
+				type: 'schedule',
+				date: moment().format()
+			},
+			interval: 'q',
+			contacts: [],
+			phones: [],
+			email: 'abc@example.com',
+			address: {
+				street: '123 Main',
+				city: 'Somewhere',
+				province: 'ON'
+			}
+		}, function(err, res) {
+			that.doc = res;
+			done();
+		});
+	});
+
 	describe('People collection', function() {
 		it('should return html successfully', function(done) {
 			request(app)
@@ -27,15 +64,19 @@ describe('People routes', function() {
 		it('should return html successfully', function(done) {
 			request(app)
 				.post('/people')
-				.expect('Content-Type', /html/)
-				.expect(200, done);
+				.type('form')
+				.send(this.doc)
+				.expect(302, done);
 		});
 	});
 
 	describe('Person detail', function() {
 		it('should return html successfully', function(done) {
+			
+			var url = '/people/' + this.doc._id;
+
 			request(app)
-				.get('/people/123')
+				.get(url)
 				.expect('Content-Type', /html/)
 				.expect(200, done);
 		});
@@ -43,8 +84,11 @@ describe('People routes', function() {
 
 	describe('Person edit', function() {
 		it('should return html successfully', function(done) {
+
+			var url = '/people/' + this.doc._id + '/edit';
+
 			request(app)
-				.get('/people/123/edit')
+				.get(url)
 				.expect('Content-Type', /html/)
 				.expect(200, done);
 		});
@@ -52,26 +96,35 @@ describe('People routes', function() {
 
 	describe('Update person', function() {
 		it('should return html successfully', function(done) {
+
+			var url = '/people/' + this.doc._id + '?_rev=' + this.doc._rev;
+
+			this.doc.firstName = 'newname';
+
 			request(app)
-				.put('/people/123')
-				.expect('Content-Type', /html/)
-				.expect(200, done);
+				.put(url)
+				.set(this.doc)
+				.expect(302, done);
 		});
 	});
 
 	describe('Destroy person', function() {
 		it('should return html successfully', function(done) {
+
+			var url = '/people/' + this.doc._id + '?_rev=' + this.doc._rev;
 			request(app)
-				.del('/people/123')
-				.expect('Content-Type', /html/)
-				.expect(200, done);
+				.del(url)
+				.expect(302, done);
 		});
 	});
 
 	describe('Person followup', function() {
 		it('should return html successfully', function(done) {
+
+			var url = '/people/' + this.doc.id + '/followup';
+
 			request(app)
-				.get('/people/123/followup')
+				.get(url)
 				.expect('Content-Type', /html/)
 				.expect(200, done);
 		});

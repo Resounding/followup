@@ -1,11 +1,17 @@
 
 var config = require('./cradle_config')[process.env.NODE_ENV || 'production'],
 	util = require('util'),
+	emitter = new (require('events').EventEmitter)(),
 	cradle = require('cradle'),
 	conn = new (cradle.Connection)(config.url, config.port, {
 		auth: { username: config.user.username, password: config.user.password }
 	}),
-	db = conn.database('followup');
+	db = conn.database(config.database);
+
+db.on = function(event, callback) {
+	emitter.on(event, callback);
+	return db;
+};
 
 db.exists(function(err, exists) {
 	if(err) {
@@ -62,11 +68,14 @@ db.get(PEOPLE_VIEW_NAME, function(err, doc) {
 			} else {
 				console.log('design doc saved: ' + util.inspect(result));
 			}
+
+			emitter.emit('ready');
 		})
 	} else if(err) {
 		console.log('error getting design doc: ' + util.inspect(err));
 	} else {
 		console.log('design doc exists');
+		emitter.emit('ready');
 	}
 });
 
