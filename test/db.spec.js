@@ -27,6 +27,8 @@ describe('Couch DB', function() {
 				db.create();
 				done();
 			}
-		});
+		});		
 	});
+
+	it('really should test the database');
 });

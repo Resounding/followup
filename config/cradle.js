@@ -1,5 +1,6 @@
 
-var config = require('./cradle_config')[process.env.NODE_ENV || 'production'],
+var mode = process.env.NODE_ENV || 'production',
+	config = require('./cradle_config')[mode],
 	util = require('util'),
 	emitter = new (require('events').EventEmitter)(),
 	cradle = require('cradle'),
@@ -48,7 +49,9 @@ var PEOPLE_VIEW_NAME = '_design/people',
 db.get(PEOPLE_VIEW_NAME, function(err, doc) {
 	
 	if((err && err.error == 'not_found') || doc == null) {
-		console.log('creating design document');
+		if(mode !== 'test') {
+			console.log('creating design document');
+		}
 		conn.auth = { username: config.admin.username, password: config.admin.password };
 		db.save(PEOPLE_VIEW_NAME, {
 			views: {
@@ -65,16 +68,20 @@ db.get(PEOPLE_VIEW_NAME, function(err, doc) {
 		}, function(saveErr, result) {
 			if(saveErr) {
 				console.log('error saving design document: ' + util.inspect(saveErr));
-			} else {
-				console.log('design doc saved: ' + util.inspect(result));
+			} else {				
+				if(mode !== 'test') {
+					console.log('design doc saved: ' + util.inspect(result));
+				}
 			}
 
 			emitter.emit('ready');
 		})
-	} else if(err) {
+	} else if(err) {		
 		console.log('error getting design doc: ' + util.inspect(err));
 	} else {
-		console.log('design doc exists');
+		if(mode !== 'test') {
+			console.log('design doc exists');
+		}
 		emitter.emit('ready');
 	}
 });
