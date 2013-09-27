@@ -1,34 +1,53 @@
-var assert = require('assert');
+var assert = require('assert'),
+	moment = require('moment')
+	util = require('util');
 
 describe('Couch DB', function() {
-	var config = require('../config/cradle_config')[process.env.NODE_ENV || 'test'],
-		cradle = require('cradle'),
-		conn = new (cradle.Connection)(config.url, config.port, {
-			auth: { username: config.user.username, password: config.user.password }
-		}),
-		db = conn.database(config.database);
-
+	
 	before(function(done) {
-		db.exists(function(err, result) {
-			if(err) return done(err);
-
-			if(result) {
-				db.destroy(function(destroyErr, destroyResult) {
-					if(destroyErr) return done(destroyErr);
-
-					db.create(function(createErr, createResult) {
-						if(createErr) return done(createErr);
-
-						db.create();
-						done();
-					});
-				})
-			} else {
-				db.create();
-				done();
-			}
-		});		
+		this.db = require('../config/cradle').on('ready', done);		
 	});
 
-	it('really should test the database');
+	describe('Followups view', function() {
+		it('should only return followups for today or before', function(done) {
+			return done();
+			var data = [
+				{
+					id: 1,
+					type: 'person',
+					nextContact: {
+						date: moment().format()
+					}
+				},
+				{
+					id: 2,
+					type: 'person',
+					nextContact: {
+						date: moment().add('d', 1).format()
+					}
+				},
+				{
+					id: 3,
+					type: 'person',
+					nextContact: {
+						date: moment().add('d', -1).format()
+					}
+				}
+			];
+
+			this.db.save(data, function(err, saveRes) {
+
+				this.db.view('people/followups', function(err, dbRes) {
+
+					assert.equal(2, dbRes.length, 'only 2 rows should have been returned.');
+
+					assert.equal(3, dbRes[0].value.id, 'overdue item is first');
+					assert.equal(1, dbRes[1].value.id, 'today\'s item is second');
+					done();
+				});
+			});
+		});
+
+		it('shouldn\'t mark items from earlier in the day as overdue');
+	});
 });

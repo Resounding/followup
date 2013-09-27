@@ -7,12 +7,9 @@ var assert = require('assert'),
 
 
 describe('People routes', function() {
+	
 	before(function(done) {
 		this.db = require('../config/cradle').on('ready', done);
-	});
-
-	after(function(done) {
-		this.db.destroy(done);
 	});
 
 	beforeEach(function(done) {
