@@ -28,7 +28,7 @@
 	},
 	"scripts": {
 		"start": "set NODE_ENV=dev&&.\\node_modules\\.bin\\nodemon server.js",
-		"test": "set NODE_ENV=test&&.\\node_modules\\.bin\\mocha -R spec -t 5000"
+		"test": "set NODE_ENV=test&&.\\node_modules\\.bin\\mocha -R spec"
 	},
 	"devDependencies": {
 		"supertest": "*",

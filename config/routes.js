@@ -1,7 +1,8 @@
 var db = require('./cradle'),
 	followups = require('../resource/followups')(db),	
 	people = require('../resource/people')(db),
-	search = require('../resource/search')(db);
+	search = require('../resource/search')(db),
+	appointments = require('../resource/appointments')(db);
 
 function Route(app) {
 
@@ -15,6 +16,8 @@ function Route(app) {
 	// add the custom route /people/:id/followup
 	peopleResource.map('get', 'followup', people.followup);
 	peopleResource.map('put', 'followup', people.recordContact);
+
+	var appointmentResource = app.resource('appointments', appointments);
 }
 
 module.exports = Route;

@@ -11,6 +11,7 @@
 		<link rel="stylesheet" href="css/bootstrap.css">
 		<link rel="stylesheet" href="css/bootstrap-modal.css">
 		<link rel="stylesheet" href="css/font-awesome.css">
+		<link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
 		<link rel="stylesheet" href="css/followup.css">
 	</head>
 	<body>
@@ -25,33 +26,65 @@
 			</div>		
 			<div class="collapse navbar-collapse" style="max-height: none; overflow-y: visible;">
 				<form class="navbar-form" action="search" method="GET">
-					<div class="input-group col-xs-10 col-sm-6 col-lg-3">
-						<input type="search" name="q" class="form-control" placeholder="Search" />
-						<input type="hidden" name="tag" />
-						<span class="input-group-btn">									
+					<div class="input-group xs-auto col-sm-6 col-lg-6" style="padding-left: 0; padding-right: 0;">
+						<input type="search" name="q" class="form-control hidden-xs" placeholder="Search" />	
+						<span class="input-group-btn not-phone" style="padding: 0; border: 0;">		
 							<button type="submit" class="btn btn-default">
 								<i class="icon-search"></i>
 							</button>
-							<div class="btn-group">
-								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-									<i class="icon-tags"></i>
-									<span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu" role="menu">
-									<li><a href="#">&gt; $5M</a></li>
-									<li><a href="#">Fall Roadshow</a></li>
-									<li><a href="#">Golf</a></li>
-									<li class="divider"></li>
-									<li><a href="#">Show All</a></li>
-								</ul>
-							</div>
 						</span>
-					</div>					
-					<a href="/people/new" class="btn btn-default navbar-link">
-						<i class="icon-plus"></i>
-						<span class="not-phone">Add client</span>						
-					</a>
-					
+						<div class="btn-group" data-toggle="calendar">
+							<input type="hidden" />
+							<button type="button" class="btn btn-default addon">
+								<i class="icon-calendar"></i>
+								<span class="caret"></span>
+							</button>							
+						</div>
+						<div class="btn-group phone-only">
+							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+								<i class="icon-search"></i>
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu">
+								<li style="padding: 5px;">
+									<div class="input-group">
+										<input type="search" name="q" class="form-control" placeholder="Search" style="width: 180px;" />	
+										<span class="input-group-btn input-group-addon" style="padding: 0; border: 0;">		
+											<button type="submit" class="btn btn-default">
+												<i class="icon-search"></i>
+											</button>
+										</span>
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="btn-group">
+							<input type="hidden" name="tag" />
+							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+								<i class="icon-tags"></i>
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="#">&gt; $5M</a></li>
+								<li><a href="#">Fall Roadshow</a></li>
+								<li><a href="#">Golf</a></li>
+								<li class="divider"></li>
+								<li><a href="#">Show All</a></li>
+							</ul>
+						</div>
+					</div>	
+					<div class="btn-group pull-right">			
+						<a href="/people/new" class="btn btn-default navbar-link">
+							<i class="icon-user"></i>
+							<i class="icon-plus"></i>
+							<span class="not-phone">Add client</span>						
+						</a>
+						<a href="/appointments/new" class="btn btn-default navbar-link">
+							<i class="icon-calendar"></i>
+							<i class="icon-plus"></i>
+							<span class="not-phone">Add Appt</span>						
+						</a>
+					</div>
 				</form>
 			</div>
 		</nav>
@@ -97,7 +130,8 @@
 		
 		<script src="js/jquery-1.10.2.js"></script>
 		<script src="js/bootstrap.js"></script>
-		<script src="js/masonry.pkgd.js"></script>
+		<script src="js/moment.js"></script>
+		<script src="js/bootstrap-datetimepicker.js"></script>
 		<script type="text/javascript">
 		$(function() {
 			$(document).on('click', 'form[action=search] ul.dropdown-menu a', function(e) {
@@ -113,6 +147,21 @@
 
 				window.location = url;
 			});
+
+			// don't close the dropdown when they click on search
+			$(document).on('click', 'ul.dropdown-menu', function(e) {
+				e.stopPropagation();
+			});
+
+			$('[data-toggle=calendar]')
+				.datetimepicker({
+					pickTime: false
+				})
+				.on('changeDate', function(e) {
+					var date = moment(e.date).add('d', 1),
+						format = date.format('YYYYMMDD');
+					window.location = '/appointments/' + format;
+				});
 		});
 		</script>
     </script>

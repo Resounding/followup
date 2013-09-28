@@ -47,9 +47,16 @@ form .select2-container {
 	text-decoration: none;
 }
 
+.phone-only { display: none; }
+
 /* extra-small */
 @media (max-width: 767px) {
 	.not-phone { display: none; }
+	.phone-only { display: inline-block; }
+	.xs-auto { 
+		width: auto;
+		display: inline-block;
+	}
 
 	.navbar .btn-toolbar .btn-group { padding: 0; }
 
