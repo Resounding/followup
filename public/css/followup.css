@@ -82,25 +82,14 @@ form .select2-container {
 		margin-bottom: 10px;
 	}
 
-	.panel-danger .appointment,
-	.panel-danger .appointment > .well {
+	.panel-danger .appointment h3,
+	.panel-danger .appointment .icon-stack {
 		color: #b94a48;
-		background-color: #f2dede;
-		border-color: #eed3d7;
 	}
 
-	.panel-success .appointment,
-	.panel-success .appointment > .well {
-		color: #468847;
-		background-color: #dff0d8;
-		border-color: #d6e9c6;
-	}
-
-	.panel-info .appointment,
-	.panel-info .appointment > .well {
+	.panel-success .appointment h3,
+	.panel-success .appointment .icon-stack {
 		color: #3a87ad;
-		background-color: #d9edf7;
-		border-color: #bce8f1;
 	}
 }
 
