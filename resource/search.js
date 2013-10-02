@@ -11,6 +11,10 @@ Search.index = function(req, res){
 	var search = req.query.q || '',
 		tag = req.query.tag || '';
 
+	if(Array.isArray(search)) {
+		search = search.join('');
+	}
+
 	console.log('searching for ' + search + ', tag ' + tag);
 
 	database.view('people/lastName', function(err, dbRes) {

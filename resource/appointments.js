@@ -26,7 +26,7 @@ Appointments.new = function(req, res) {
 
 Appointments.show = function(req, res) {
 	var date = moment(req.params.appointment || null, 'YYYYMMDD') || moment(),
-		format = 'dddd, MMM DD';
+		format = 'ddd, MMM DD';
 
 	 if(!date.isSame(moment(), 'year')) {
 	 	format += ', YYYY'

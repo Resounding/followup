@@ -5,6 +5,12 @@ html, body, h1, h2, h3, h4, h5, h6 {
 body {
 	padding-top: 70px;
 }
+nav.navbar-default {
+	opacity: 0.9;
+}
+nav .navbar-brand {
+	font-size: 2em;
+}
 .appointment {
 	cursor: pointer;
 	min-height: 200px;

@@ -12,6 +12,11 @@
 		<link rel="stylesheet" href="../css/font-awesome.css">
 		<link rel="stylesheet" href="../css/bootstrap-datetimepicker.min.css">
 		<link rel="stylesheet" href="../css/followup.css">
+		<style>
+		@media (max-width: 480px) {
+			.navbar-header { padding-left: 5px; padding-right: 5px; }
+		}
+		</style>
 	</head>
 	<body>
 		<nav class="navbar navbar-default navbar-fixed-top">
@@ -21,10 +26,16 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="/"><i class="icon-beaker"></i> Followups</a>
+				<a class="navbar-brand" href="/"><i class="icon-home"></i> </a>
+				<a class="navbar-brand" style="color: #ddd;">&nbsp;|&nbsp;</a>
+				<a class="navbar-brand" href="/appointments/<%= queryStringDate %>" data-toggle="calendar">
+					<%= dateString %>
+					<i class="icon-calendar"></i>
+					<input type="hidden" />
+				</a>
 			</div>		
 			<div class="collapse navbar-collapse" style="max-height: none; overflow-y: visible;">
-				<form class="navbar-form" action="search" method="GET">
+				<form class="navbar-form" action="/search" method="GET">
 					<div class="input-group xs-auto col-sm-5 col-lg-6" style="padding-left: 0; padding-right: 0;">
 						<input type="search" name="q" class="form-control hidden-xs" placeholder="Search" />	
 						<span class="input-group-btn not-phone" style="padding: 0; border: 0;">		
@@ -81,25 +92,9 @@
 			</div>
 		</nav>
 
-		<nav class="navbar navbar-default navbar-fixed-top" style="top: 50px; padding: 15px; border-top: solid 1px #ddd; z-index: 1;">
-			<div class="btn-toolbar">
-				<div class="btn-group col-xs-7 col-sm-3">
-					<h4 data-toggle="calendar">					
-						<a href="/appointments/<%= queryStringDate %>">
-							<%= dateString %>
-							<i class="icon-calendar"></i>
-							<input type="hidden" />
-						</a>
-					</h4>
-				</div>
-			</div>		
-		</nav>
-
-		<div style="margin-top: 50px;">
 		<% appointments.forEach(function(appointment) { %>
 			<% print(appointment); %>	
 		<% }) %>
-		</div>
 
 		<script src="../js/jquery-1.10.2.js"></script>
 		<script src="../js/bootstrap.js"></script>
@@ -107,6 +102,12 @@
 		<script src="../js/bootstrap-datetimepicker.js"></script>
 		<script>
 		$(function() {
+			$(document).on('click', 'form[action="/search"] ul.dropdown-menu a', function(e) {
+				var $form = $('form[action="/search"]');
+				$form.find('input[type=hidden]').val(e.currentTarget.innerText);
+				$form.submit();
+			});
+
 			// don't close the dropdown when they click on search
 			$(document).on('click', 'ul.dropdown-menu', function(e) {
 				e.stopPropagation();
