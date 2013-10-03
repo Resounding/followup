@@ -1,0 +1,67 @@
+<div class="appointment col-xs-12 col-sm-6 col-md-4 col-lg-3" data-target="<%= d.url %>">
+	<div class="icon-stack pull-right" style="margin-top: 20px; margin-bottom: 10px;">
+		<i class="icon-stack-base icon-user"></i>
+	</div>	
+
+	<h3><%- d.firstName %> <%- d.lastName %></h3>
+
+	<address>
+		<strong><%- d.organization %></strong><br />
+		<% if(d.address) { %>
+			<% if(d.address.street) { %>
+				<%- d.address.street %>
+				<br />
+			<% } %>
+			<%- d.address.city %>
+			<% if(d.address.city && d.address.province) { print(', '); } %>
+			<%- d.address.province %>
+			<% if(d.address.city && d.address.province) { %>
+				<br />
+			<% } %>
+		<% } %>
+		<% if(d.email) { %>
+			<div>
+				<abbr title="Email">E:</abbr>
+				<a href="mailto:<%= d.email %>">
+					<%= d.email %>
+				</a>
+			</div>
+		<% } %>
+		<% if(d.phones) { %>
+			<% d.phones.forEach(function(phone) { %>
+				<% if(phone.number) { %>
+					<div>
+						<abbr title="<%= phone.type%>"><%= phone.abbreviation %>:</abbr>
+						<a href="tel:<%= phone.number %>"><%= phone.number %></a>
+					</div>
+				<% } %>
+			<% }) %>						
+		<% } %>
+	</address>		
+
+	<% if(Array.isArray(d.contacts) && d.contacts.length) { %>
+	<% var contactCount = 0; %>
+	<table class="table table-striped">
+		<% d.contacts.forEach(function(contact) { %>
+			<% if(contactCount < 3) { %>
+				<tr>
+					<td><i class="<%= contact.icon %>"></i></td>
+					<td><%= contact.dateTimeString %></td>
+					<td><%- contact.notes %></td>
+				</tr>
+			<% contactCount++; %>
+			<% } %>
+		<% }) %>
+	</table>
+	<% } %>
+
+	<div class="clearfix"></div>
+	
+	<% if(Array.isArray(d.tags) && d.tags.length) { %>
+		<div class="col-xs-12 well" style="margin-bottom: 0">
+			<% d.tags.forEach(function(tag) { %>
+				<span class="badge"><%- tag %></span>
+			<% }) %>
+		</div>
+	<% } %>
+</div>

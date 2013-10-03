@@ -1,20 +1,103 @@
+
 <!DOCTYPE html>
 
 <html>
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE-edge">
-		<title>People index</title>
+		<title><%= title %></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans">
+		<link rel="stylesheet" href="css/bootstrap.css">
+		<link rel="stylesheet" href="css/bootstrap-modal.css">
+		<link rel="stylesheet" href="css/font-awesome.css">
+		<link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+		<link rel="stylesheet" href="css/followup.css">
+		<style>
+			a.navbar-brand { padding-top: 10px; }
+		</style>
 	</head>
 	<body>
-		<a href="/people/new">New Person</a>
-		<ul>
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="/">
+					<i class="icon-home"></i>
+				</a>
+				<p class="navbar-text" style="color: #ddd;">&nbsp;|&nbsp;</p>
+				<p class="navbar-text" style="font-size: 12pt; white-space: nowrap; overflow: hidden; width: calc(100% - 100px);"><%- title %></p>
+			</div>		
+			<div class="collapse navbar-collapse" style="max-height: none; overflow-y: visible;">
+				<form class="navbar-form" action="/search" method="GET">
+					<div class="input-group xs-auto col-sm-5 col-lg-6" style="padding-left: 0; padding-right: 0;">
+						<input type="search" name="q" class="form-control hidden-xs" placeholder="Search" />
+						<span class="input-group-btn not-phone" style="padding: 0; border: 0;">		
+							<button type="submit" class="btn btn-default">
+								<i class="icon-search"></i>
+							</button>
+						</span>
+						<div class="btn-group" data-toggle="calendar">
+							<input type="hidden" />
+							<button type="button" class="btn btn-default addon">
+								<i class="icon-calendar"></i>
+								<span class="caret"></span>
+							</button>							
+						</div>						
+					</div>	
+					<div class="btn-group pull-right">			
+						<a href="/people/new" class="btn btn-default navbar-link">
+							<i class="icon-user"></i>
+							<i class="icon-plus"></i>
+							<span class="not-phone">Add client</span>						
+						</a>
+						<a href="/appointments/new" class="btn btn-default navbar-link">
+							<i class="icon-calendar"></i>
+							<i class="icon-plus"></i>
+							<span class="not-phone">Add Appt</span>						
+						</a>
+					</div>
+				</form>
+			</div>
+		</nav>
+
 		<% people.forEach(function(person) { %>
-			<li>
-				<a href="/people/<%= person._id %>"><%- person.firstName %> <%- person.lastName %></a>
-			</li>
-		<% }) %>			
-		</ul>
+			<% print(person) %>
+		<% }) %>
+
+		<script src="js/jquery-1.10.2.js"></script>
+		<script src="js/bootstrap.js"></script>
+		<script src="js/moment.js"></script>
+		<script src="js/bootstrap-datetimepicker.js"></script>
+		<script type="text/javascript">
+		$(function() {
+
+			$(document).on('click', '.appointment', function(e) {
+				var $this = $(e.currentTarget),
+					url = $this.data('target');
+
+				window.location = url;
+			});
+
+			// don't close the dropdown when they click on search
+			$(document).on('click', 'ul.dropdown-menu', function(e) {
+				e.stopPropagation();
+			});
+
+			$('[data-toggle=calendar]')
+				.datetimepicker({
+					pickTime: false
+				})
+				.on('changeDate', function(e) {
+					var date = moment(e.date),
+						format = date.format('YYYYMMDD');
+					window.location = '/appointments/' + format;
+				});
+		});
+		</script>
+    </script>
 	</body>
 </html>
