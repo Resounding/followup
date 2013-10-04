@@ -10,8 +10,11 @@ var util = require('util'),
     database;
 
 function toHtml(doc) {
-    var viewModel = toViewModel(doc),
-    	html = personTemplate(viewModel);
+    var viewModel = toViewModel(doc);
+	
+	viewModel.url = 'people/' + doc._id + '/edit';
+
+	var html = personTemplate(viewModel);
 
     return html;
 }
@@ -41,20 +44,38 @@ Search.index = function(req, res){
 
 	database.view('people/lastName', function(err, dbRes) {
 
-		if(tag) {
-			dbRes.forEach(function(row) {
-				row.tags = row.tags || [];
+		var rows = [];
+		
+		dbRes.forEach(function(row) {			
+
+			row.tags = row.tags || [];
+
+			if(tag) {
 				if(row.tags.indexOf(tag) === -1) {
 					row.tags.push(tag);
 				}
-			})
-		}
+			}
 
-		var rows = dbRes.map(toHtml);
+			if(search) {
+				var searchKey = search.toLowerCase();
+				if(row.firstName.toLowerCase().indexOf(searchKey) === -1 &&
+					row.lastName.toLowerCase().indexOf(searchKey) === -1 &&
+					row.organization.toLowerCase().indexOf(searchKey) === -1 &&
+					row.address.city.toLowerCase().indexOf(searchKey) === -1) {
+
+					return;
+				}
+			}
+
+			var html = toHtml(row);
+			rows.push(html);
+		});
 
 		res.render('people', {
 			title: title,
-			people: rows
+			people: rows,
+			search: search,
+			tag: tag
 		});  
 	});  
 };

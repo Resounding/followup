@@ -8,6 +8,9 @@ body {
 nav.navbar-default {
 	opacity: 0.9;
 }
+nav.navbar-default ul.dropdown-menu {
+	opacity: 1;
+}
 nav .navbar-brand {
 	font-size: 2em;
 }

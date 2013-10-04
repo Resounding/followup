@@ -141,8 +141,13 @@
 		<script type="text/javascript">
 		$(function() {
 			$(document).on('click', 'form[action="/search"] ul.dropdown-menu a', function(e) {
-				var $form = $('form[action="/search"]');
-				$form.find('input[type=hidden]').val(e.currentTarget.innerText);
+				var $form = $('form[action="/search"]'),
+					text = e.currentTarget.innerText;
+					
+				if(text === 'Show All') {
+					text = '';
+				}
+				$form.find('input[type=hidden]').val(text);
 				$form.submit();
 			});
 
