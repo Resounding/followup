@@ -1,1 +1,83 @@
-<h1>New appointment</h1>
+
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE-edge">
+		<title><%= title %></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans">
+		<link rel="stylesheet" href="/css/bootstrap.css">
+		<link rel="stylesheet" href="/css/bootstrap-modal.css">
+		<link rel="stylesheet" href="/css/font-awesome.css">
+		<link rel="stylesheet" href="/css/bootstrap-datetimepicker.min.css">
+		<link rel="stylesheet" href="/css/followup.css">
+		<style>
+			a.navbar-brand { padding-top: 10px; }
+			.appointment:hover .table-striped > tbody > tr:nth-child(odd) > td,
+			.appointment:hover .table-striped > tbody > tr:nth-child(odd) > th,
+			.appointment:hover .well {
+				background-color: #eee;
+			}
+		</style>
+	</head>
+	<body>
+		<form method="post" action="/people" class="form-horizontal">
+			<nav class="navbar navbar-default navbar-fixed-top">
+				<div class="navbar-header">			
+					<a class="navbar-brand" href="/"><i class="icon-home"></i> </a>
+					<a class="navbar-brand" style="color: #ddd;">&nbsp;|&nbsp;</a>
+					<div class="navbar-nav btn-group" style="margin-left: 0;">
+						<button type="submit" class="btn btn-primary navbar-btn">
+							<i class="icon-save"></i>
+							Save
+						</button>
+						<a href="/" class="btn btn-default navbar-btn">
+							<i class="icon-undo"></i>
+							Cancel
+						</a>
+					</div>
+				</div>			
+			</nav>		
+				
+			<fieldset>
+				<legend>New Appointment</legend>
+			
+
+				<div class="form-group">
+					<label class="control-label col-xs-12 col-sm-3 col-md-1">Date:</label>
+					<div class="col-xs-12 col-sm-3 col-md-2" data-toggle="date">
+						<input type="text" name="date" class="form-control" autofocus	 />
+					</div>
+
+					<label class="control-label col-xs-12 col-sm-3 col-md-1">Time:</label>
+					<div class="col-xs-12 col-sm-3 col-md-2" data-toggle="time">
+						<input type="text" name="time" class="form-control"	 />
+					</div>				
+				</div>
+			</fieldset>
+		</form>
+
+		<script src="/js/jquery-1.10.2.js"></script>
+		<script src="/js/bootstrap.js"></script>
+		<script src="/js/moment.js"></script>
+		<script src="/js/bootstrap-datetimepicker.js"></script>
+		<script type="text/javascript">
+		$(function() {
+			$('[data-toggle=date]')
+  				.datetimepicker({
+	  				pickTime: false,
+	  				format: 'MM dd, yyyy'
+	  			});
+
+  			$('[data-toggle=time]')
+  				.datetimepicker({
+	  				pickDate: false,
+	  				pickSeconds: false,
+	  				format: 'hh:mm'
+	  			});
+		});
+		</script>
+	</body>
+</html>

@@ -21,7 +21,9 @@ Appointments.index = function(req, res) {
 };
 
 Appointments.new = function(req, res) {
-	res.render('appointments/new');	
+	res.render('appointments/new', {
+		title: 'New Appointment'
+	});	
 };
 
 Appointments.show = function(req, res) {
