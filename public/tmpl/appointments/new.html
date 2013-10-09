@@ -20,10 +20,14 @@
 			.appointment:hover .well {
 				background-color: #eee;
 			}
+
+			label {
+				width: 100%;
+			}
 		</style>
 	</head>
 	<body>
-		<form method="post" action="/people" class="form-horizontal">
+		<form method="post" action="/appointments" class="form-horizontal">
 			<nav class="navbar navbar-default navbar-fixed-top">
 				<div class="navbar-header">			
 					<a class="navbar-brand" href="/"><i class="icon-home"></i> </a>
@@ -41,22 +45,54 @@
 				</div>			
 			</nav>		
 				
-			<fieldset>
+			<fieldset style="position: fixed; top: 75px;">
 				<legend>New Appointment</legend>
 			
-
 				<div class="form-group">
+					<input type="hidden" name="date" />
+
 					<label class="control-label col-xs-12 col-sm-3 col-md-1">Date:</label>
 					<div class="col-xs-12 col-sm-3 col-md-2" data-toggle="date">
-						<input type="text" name="date" class="form-control" autofocus	 />
+						<input type="text" class="form-control" autofocus />
 					</div>
 
 					<label class="control-label col-xs-12 col-sm-3 col-md-1">Time:</label>
 					<div class="col-xs-12 col-sm-3 col-md-2" data-toggle="time">
-						<input type="text" name="time" class="form-control"	 />
-					</div>				
+						<input type="text" class="form-control"	 />
+					</div>
 				</div>
-			</fieldset>
+				<div class="form-group">
+					<label class="control-label col-xs-12 col-sm-3 col-md-1">Reason:</label>
+					<div class="col-xs-12 col-sm-3 col-md-2">
+						<input type="text" name="reason" class="form-control" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-xs-12 col-sm-3 col-md-1">Type:</label>
+					<label>
+						<input type="radio" name="type" value="meeting" />
+						Meeting
+					</label>
+					<label>
+						<input type="radio" name="type" value="call" />
+						Phone Call
+					</label>
+					<label>
+						<input type="radio" name="type" value="email" />
+						email
+					</label>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-xs-12 col-sm-3 col-md-1">Client:</label>
+					<% people.forEach(function(person) { %>
+						<label>
+							<input type="radio" name="client" value="<%= person._id %>" />
+							<%- person.firstName %>
+							<%- person.lastName %>
+						</label>
+					<% }); %>
+				</div>
+			</fieldset>			
 		</form>
 
 		<script src="/js/jquery-1.10.2.js"></script>
@@ -65,17 +101,49 @@
 		<script src="/js/bootstrap-datetimepicker.js"></script>
 		<script type="text/javascript">
 		$(function() {
+
+			$('input[type=radio]').first().prop('selected', true);
+
+			var now = moment().startOf('hour'),
+				$hdn = $('input[name=date]').val(now.format()),
+				$date = $('[data-toggle=date] input').val(now.format('MMM D, YYYY')),
+				$time = $('[data-toggle=time] input').val(now.format('h:mm A'));
+
 			$('[data-toggle=date]')
   				.datetimepicker({
-	  				pickTime: false,
-	  				format: 'MM dd, yyyy'
+	  				pickTime: false
+	  			})
+	  			.on('changeDate', function(e) {
+	  				var newValue = moment.utc(e.date),
+	  					date = moment($hdn.val());
+
+  					date = date.year(newValue.year()).month(newValue.month()).date(newValue.date());
+
+  					$date.val(date.format('MMM D, YYYY'));
+  					$hdn.val(date.format());	  	
+	  			})
+	  			.on('hide', function(e) {
+					var date = moment($hdn.val());
+  					$date.val(date.format('MMM D, YYYY'));
 	  			});
 
   			$('[data-toggle=time]')
   				.datetimepicker({
 	  				pickDate: false,
-	  				pickSeconds: false,
-	  				format: 'hh:mm'
+	  				pickSeconds: false
+	  			})
+	  			.on('changeDate', function(e) {
+	  				var newValue = moment.utc(e.date),
+	  					date = moment($hdn.val());
+
+  					date = date.hour(newValue.hour()).minute(newValue.minute());
+
+  					$time.val(date.format('h:mm A'));
+  					$hdn.val(date.format());
+	  			})
+	  			.on('hide', function(e) {
+					var date = moment($hdn.val());
+  					$time.val(date.format('h:mm A'));
 	  			});
 		});
 		</script>

@@ -12,7 +12,10 @@ var moment = require('moment')
     phoneHtml = fs.readFileSync(path.join(baseDir, 'call.html')).toString(),
     phone = _.template(phoneHtml, null, { variable: 'd' });
 
+var database;
+
 function Appointments(db) {
+	database = db;
 	return Appointments;
 }
 
@@ -21,9 +24,26 @@ Appointments.index = function(req, res) {
 };
 
 Appointments.new = function(req, res) {
-	res.render('appointments/new', {
-		title: 'New Appointment'
-	});	
+	database.view('people/lastName', function(err, people) {
+
+		res.render('appointments/new', {
+			title: 'New Appointment',
+			people: people
+		});	
+	});
+};
+
+Appointments.create = function(req, res) {
+	var client = req.body.client,
+		nextContact = req.body;
+	delete nextContact.client;
+
+	database.get(client, function(err, person) {
+		person.nextContact = nextContact;
+		database.save(client, person, function() {
+			res.redirect('/');
+		});
+	});
 };
 
 Appointments.show = function(req, res) {
