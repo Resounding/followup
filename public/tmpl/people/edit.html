@@ -4,27 +4,133 @@
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE-edge">
-		<title>Edit person</title>
+		<title>Edit Client: <%- firstName + ' ' + lastName %></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans">
+		<link rel="stylesheet" href="/css/bootstrap.css">
+		<link rel="stylesheet" href="/css/bootstrap-modal.css">
+		<link rel="stylesheet" href="/css/font-awesome.css">
+		<link rel="stylesheet" href="/css/select2.css">
+		<link rel="stylesheet" href="/css/followup.css">
+		<style>
+			a.navbar-brand { padding-top: 10px; }
+			.navbar-nav.btn-group {
+				margin-left: 0;
+				padding-top: 0;
+			}
+		</style>
 	</head>
 	<body>
-		<a href="/people">Home</a>
+		<form method="post" action="/people" class="form-horizontal">
+			<nav class="navbar navbar-default navbar-fixed-top">
+				<div class="navbar-header">			
+					<a class="navbar-brand" href="/"><i class="icon-home"></i> </a>
+					<a class="navbar-brand" style="color: #ddd;">&nbsp;|&nbsp;</a>
+					<div class="navbar-nav btn-group" style="margin-left: 0;">
+						<button type="submit" class="btn btn-primary navbar-btn">
+							<i class="icon-save"></i>
+							Save
+						</button>
+						<a href="/" class="btn btn-default navbar-btn">
+							<i class="icon-undo"></i>
+							Cancel
+						</a>
+					</div>
+				</div>			
+			</nav>		
+				
+			<input type="hidden" name="type" value="person" />
 
-		<form method="post" action="/people/<%= _id %>">
-			<input type="hidden" name="_method" value="PUT" />
-			<input type="hidden" name="type" value="<%= type %>" />
-			<input type="hidden" name="_rev" value="<%= _rev %>" />
+			<fieldset>
+				<legend>Edit Client</legend>
+			
 
-			<input type="text" name="firstName" value="<%= firstName %>" />
-			<input type="text" name="lastName" value="<%= lastName %>" />
+				<div class="form-group">
+					<label class="control-label col-xs-12 col-sm-3 col-md-1">Name:</label>
+					<div class="col-xs-12 col-sm-3 col-md-2">
+						<input type="text" name="firstName" placeholder="First Name" class="form-control"  value="<%- firstName %>" autofocus	 />
+					</div>
+					<div class="col-xs-12 col-sm-3 col-md-2">
+						<input type="text" name="lastName" placeholder="Last Name" class="form-control" value="<%- lastName %>" />
+					</div>
+				</div>
 
-			<input type="submit" />
+				<div class="form-group">
+					<label class="control-label col-xs-12 col-sm-3 col-md-1">Company:</label>
+					<div class="col-xs-12 col-sm-6 col-md-4">
+						<input type="text" name="organization" placeholder="Company" class="form-control" value="<%- organization %>" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-xs-12 col-sm-3 col-md-1">Address:</label>
+					<div class="col-xs-12 col-sm-4 col-md-3">
+						<input type="text" name="address[street]" placeholder="Street Address" class="form-control" value="<%- address.street %>" />
+					</div>
+					<div class="col-xs-12 col-sm-2 col-md-2">
+						<input type="text" name="address[city]" placeholder="City" class="form-control" value="<%- address.city %>" />
+					</div>
+					<input type="hidden" name="address[province]" value="ON" value="<%- address.province %>" />
+				</div>
+
+				<div class="form-group">
+					<% phones.forEach(function(phone, idx) { %>
+					<label class="control-label col-xs-12 col-sm-3 col-md-1"><%- phone.type %>:</label>
+					<input type="hidden" name="phones[<%= idx %>][type]" value="<%- phone.type %>" />
+					<div class="col-xs-12 col-sm-3 col-md-2">
+						<input type="phone" name="phones[<%= idx %>][number]" placeholder="Phone" class="form-control" value="<%- phone.number %>" />
+					</div>
+					<div class="clearfix"></div>
+					<% }); %>
+
+					<label class="control-label col-xs-12 col-sm-3 col-md-1">Email:</label>
+					<div class="col-xs-12 col-sm-6 col-md-4">
+						<input type="phone" name="email" placeholder="Email" class="form-control" value="<%- email %>" />
+					</div>
+					<div class="clearfix"></div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-xs-12 col-sm-3 col-md-1">Tags:</label>
+					<input type="hidden" name="tags" class="col-xs-12 col-sm-6 col-md-4" data-placeholder="Tags" />
+					<div class="clearfix"></div>
+				</div>
+
+				<div class="form-group nextContact">
+					<input type="hidden" name="nextContact[type]" value="schedule" />
+					<input type="hidden" name="nextContact[date]" />
+					<label class="control-label col-xs-12 col-sm-3 col-md-1">&nbsp;</label>
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" checked> Create Followup
+						</label>
+					</div>
+					<label class="control-label col-xs-12 col-sm-3 col-md-1">Each:</label>
+					<div class="col-xs-12 col-sm-6 col-md-4">
+						<select name="interval" class="form-control">
+							<option value="">Never</option>
+							<option value="w">Week</option>
+							<option value="m">Month</option>
+							<option value="q" selected>Quarter</option>
+							<option value="y">Year</option>
+						</select>
+					</div>
+					<div class="clearfix"></div>
+
+					<label class="control-label col-xs-12 col-sm-3 col-md-1">&nbsp;</label>
+					<span class="help-block col-xs-12 col-sm-6 col-md-4"></span>
+					<div class="clearfix"></div>
+				</div>
+			</fieldset>
 		</form>
-		<form method="post" action="/people/<%= _id %>">
-			<input type="hidden" name="_method" value="DELETE" />
-			<input type="hidden" name="_rev" value="<%= _rev %>" />
-
-			<input type="submit" value="Delete" />
-		</form>
+		<script src="/js/jquery-1.10.2.js"></script>
+		<script src="/js/bootstrap.js"></script>
+		<script src="/js/moment.js"></script>
+		<script src="/js/select2.js"></script>
+		<script>
+			$(function() {
+				
+			});
+		</script>
 	</body>
 </html>

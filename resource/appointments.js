@@ -38,6 +38,8 @@ Appointments.create = function(req, res) {
 		nextContact = req.body;
 	delete nextContact.client;
 
+	nextContact.confirmed = nextContact.confirmed === 'true';
+
 	database.get(client, function(err, person) {
 		person.nextContact = nextContact;
 		database.save(client, person, function() {

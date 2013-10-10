@@ -98,6 +98,8 @@ form .select2-container {
 
 @media (min-width: 768px) and (max-width: 991px) {
 	.navbar .btn-toolbar .btn-group { padding: 0; }
+
+	.not-tablet { display: none; }
 }
 
 /* medium */

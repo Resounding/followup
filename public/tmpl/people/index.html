@@ -20,6 +20,32 @@
 			.appointment:hover .well {
 				background-color: #eee;
 			}
+
+			.navbar .navbar-text.title {
+				font-size: 12pt;
+				white-space: nowrap;
+				overflow: hidden;
+				margin-right: 0;
+				margin-left: 0;
+			}
+
+			@media(max-width: 767px) {
+				.navbar .navbar-text.title {					
+					width: calc(100% - 100px);
+				}
+			}
+
+			.small-only {
+				display: inline-table;
+			}
+			@media(min-width: 768px) {
+				.small-only {
+					display: none;
+				}
+				.navbar-collapse > * {
+					padding-top: 10px;
+				}
+			}
 		</style>
 	</head>
 	<body>
@@ -34,11 +60,11 @@
 					<i class="icon-home"></i>
 				</a>
 				<p class="navbar-text" style="color: #ddd;">&nbsp;|&nbsp;</p>
-				<p class="navbar-text" style="font-size: 12pt; white-space: nowrap; overflow: hidden; width: calc(100% - 100px);"><%- title %></p>
+				<p class="navbar-text title" style=""><%- title %></p>
 
 				<form action="/search" method="GET">
 					<div class="row">
-						<div class="input-group" style="display: inline-table;">
+						<div class="input-group small-only">
 							<input type="search" name="q" class="form-control" placeholder="Search" value="<%- search %>" autofocus />
 							<span class="input-group-btn">
 								<input type="hidden" name="tag">
@@ -88,12 +114,12 @@
 					<a href="/people/new" class="btn btn-default navbar-link">
 						<i class="icon-user"></i>
 						<i class="icon-plus"></i>
-						<span class="not-phone">Add client</span>						
+						<span class="not-phone not-tablet">Add client</span>						
 					</a>
 					<a href="/appointments/new" class="btn btn-default navbar-link">
 						<i class="icon-calendar"></i>
 						<i class="icon-plus"></i>
-						<span class="not-phone">Add Appt</span>						
+						<span class="not-phone not-tablet">Add Appt</span>						
 					</a>
 				</div>
 			</div>
