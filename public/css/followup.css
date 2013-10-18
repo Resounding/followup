@@ -5,6 +5,13 @@ html, body, h1, h2, h3, h4, h5, h6 {
 body {
 	padding-top: 70px;
 }
+input[type-search] {
+	-webkit-appearance: none;
+	-webkit-border-top-right: 0;
+	-webkit-border-bottom-right: 0;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;	
+}
 nav.navbar-default {
 	opacity: 0.9;
 }

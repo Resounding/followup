@@ -62,66 +62,66 @@
 				<p class="navbar-text" style="color: #ddd;">&nbsp;|&nbsp;</p>
 				<p class="navbar-text title" style=""><%- title %></p>
 
-				<form action="/search" method="GET">
-					<div class="row">
-						<div class="input-group small-only">
-							<input type="search" name="q" class="form-control" placeholder="Search" value="<%- search %>" autofocus />
-							<span class="input-group-btn">
-								<input type="hidden" name="tag">
-								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-									<i class="icon-tags"></i>
-									<span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu" role="menu">
-									<li><a href="/search?d=121">121+ days</a></li>
-									<li><a href="/search?d=61">61-120 days</a></li>
-									<li><a href="/search?d=31">31-60 days</a></li>
-									<li><a href="/search?d=1">0-30 days</a></li>
-									<li class="divider"></li>
-									<li><a href="#">&gt; $5M</a></li>
-									<li><a href="#">Fall Roadshow</a></li>
-									<li><a href="#">Golf</a></li>
-									<li class="divider"></li>
-									<li><a href="#">Show All</a></li>
-								</ul>
-							</span>
-							<span class="input-group-btn">		
-								<button type="submit" class="btn btn-default">
-									<i class="icon-search"></i>
-								</button>
-							</span>
+				<div class="collapse navbar-collapse" style="max-height: none; overflow-y: visible;">
+				<form class="navbar-form" action="/search" method="GET">
+					<div class="input-group xs-auto col-sm-6" style="padding-left: 0; padding-right: 0;">
+						<input type="search" name="q" class="form-control hidden-xs" placeholder="Search" />
+						<span class="input-group-btn not-phone" style="padding: 0; border: 0;">		
+							<button type="submit" class="btn btn-default">
+								<i class="icon-search"></i>
+							</button>
+						</span>						
+						<div class="btn-group phone-only">
+							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+								<i class="icon-search"></i>
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu">
+								<li style="padding: 5px;">
+									<div class="input-group">
+										<input type="search" name="q" class="form-control" placeholder="Search" style="width: 180px;" />	
+										<span class="input-group-btn input-group-addon" style="padding: 0; border: 0;">		
+											<button type="submit" class="btn btn-default">
+												<i class="icon-search"></i>
+											</button>
+										</span>
+									</div>
+								</li>
+							</ul>
 						</div>
+						<div class="btn-group">
+							<input type="hidden" name="tag" />
+							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+								<i class="icon-tags"></i>
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="/search?d=121">121+ days</a></li>
+								<li><a href="/search?d=61">61-120 days</a></li>
+								<li><a href="/search?d=31">31-60 days</a></li>
+								<li><a href="/search?d=1">0-30 days</a></li>
+								<li class="divider"></li>
+								<li><a href="#">&gt; $5M</a></li>
+								<li><a href="#">Fall Roadshow</a></li>
+								<li><a href="#">Golf</a></li>
+								<li class="divider"></li>
+								<li><a href="#">Show All</a></li>
+							</ul>
+						</div>
+					</div>	
+					<div class="btn-group pull-right">			
+						<a href="/people/new" class="btn btn-default navbar-link">
+							<i class="icon-user"></i>
+							<i class="icon-plus"></i>
+							<span class="not-phone not-tablet">Add client</span>						
+						</a>
+						<a href="/appointments/new" class="btn btn-default navbar-link">
+							<i class="icon-calendar"></i>
+							<i class="icon-plus"></i>
+							<span class="not-phone not-tablet">Add Appt</span>						
+						</a>
 					</div>
 				</form>
-			</div>		
-			<div class="collapse navbar-collapse" style="max-height: none; overflow-y: visible;">
-				<div class="input-group xs-auto col-sm-5 col-lg-6" style="padding-left: 0; padding-right: 0;">
-					<input type="search" name="q" class="form-control hidden-xs" placeholder="Search" />
-					<span class="input-group-btn not-phone" style="padding: 0; border: 0;">		
-						<button type="submit" class="btn btn-default">
-							<i class="icon-search"></i>
-						</button>
-					</span>
-					<div class="btn-group" data-toggle="calendar">
-						<input type="hidden" />
-						<button type="button" class="btn btn-default addon">
-							<i class="icon-calendar"></i>
-							<span class="caret"></span>
-						</button>							
-					</div>						
-				</div>	
-				<div class="btn-group pull-right">			
-					<a href="/people/new" class="btn btn-default navbar-link">
-						<i class="icon-user"></i>
-						<i class="icon-plus"></i>
-						<span class="not-phone not-tablet">Add client</span>						
-					</a>
-					<a href="/appointments/new" class="btn btn-default navbar-link">
-						<i class="icon-calendar"></i>
-						<i class="icon-plus"></i>
-						<span class="not-phone not-tablet">Add Appt</span>						
-					</a>
-				</div>
 			</div>
 		</nav>
 
@@ -158,16 +158,6 @@
 			$(document).on('click', 'ul.dropdown-menu', function(e) {
 				e.stopPropagation();
 			});
-
-			$('[data-toggle=calendar]')
-				.datetimepicker({
-					pickTime: false
-				})
-				.on('changeDate', function(e) {
-					var date = moment(e.date),
-						format = date.format('YYYYMMDD');
-					window.location = '/appointments/' + format;
-				});
 		});
 		</script>
     </script>
