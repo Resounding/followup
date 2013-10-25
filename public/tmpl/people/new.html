@@ -100,38 +100,47 @@
 					<input type="hidden" name="tags" class="col-xs-12 col-sm-6 col-md-4" data-placeholder="Tags" />
 					<div class="clearfix"></div>
 				</div>
+			</fieldset>
+			<fieldset class="createFollowup">
+				<label class="control-label col-xs-12 col-sm-3 col-md-1">&nbsp;</label>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" checked> Create Followup
+					</label>
+				</div>
+				<label class="control-label col-xs-12 col-sm-3 col-md-1">Each:</label>
+				<div class="col-xs-12 col-sm-6 col-md-4">
+					<select name="interval" class="form-control">
+						<option value="">Never</option>
+						<option value="w">Week</option>
+						<option value="m">Month</option>
+						<option value="q" selected>Quarter</option>
+						<option value="y">Year</option>
+					</select>
+				</div>
+				<div class="clearfix"></div>
 
-				<div class="form-group nextContact">
-					<input type="hidden" name="nextContact[type]" value="schedule" />
-					<input type="hidden" name="nextContact[date]" />
-					<label class="control-label col-xs-12 col-sm-3 col-md-1">&nbsp;</label>
-					<div class="checkbox">
-						<label>
-							<input type="checkbox" checked> Create Followup
-						</label>
-					</div>
-					<label class="control-label col-xs-12 col-sm-3 col-md-1">Each:</label>
-					<div class="col-xs-12 col-sm-6 col-md-4">
-						<select name="interval" class="form-control">
-							<option value="">Never</option>
-							<option value="w">Week</option>
-							<option value="m">Month</option>
-							<option value="q" selected>Quarter</option>
-							<option value="y">Year</option>
-						</select>
-					</div>
-					<div class="clearfix"></div>
-
-					<label class="control-label col-xs-12 col-sm-3 col-md-1">&nbsp;</label>
-					<span class="help-block col-xs-12 col-sm-6 col-md-4"></span>
-					<div class="clearfix"></div>
-
-					<label class="control-label col-xs-12 col-sm-3 col-md-1">Reason:</label>
-					<div class="col-xs-12 col-sm-6 col-md-4">
-						<input type="text" name="nextContact[reason]" placeholder="Reason" class="form-control" />
+				<label class="control-label col-xs-12 col-sm-3 col-md-1">&nbsp;</label>
+				<span class="help-block col-xs-12 col-sm-6 col-md-4"></span>
+				<div class="clearfix"></div>
+			</fieldset>
+			<fieldset class="nextContact">
+				<legend>Next followup:</legend>
+				<input type="hidden" name="nextContact[type]" value="schedule" />
+				<div class="form-group dateSection">					
+					<input type="hidden" name="nextContact[date]" value="<%= today %>" />
+					<label class="control-label col-xs-12 col-sm-3 col-md-2">Date/Time:</label>
+					<div class="input-append date col-xs-12 col-sm-4 col-lg-3" style="padding-left: 0;">
+						<input type="text" class="form-control" style="width: -webkit-calc(100% - 25px); width: calc(100% - 25px); display: inline-block;" value="<%= todayString %>" />
+						<span class="add-on"><i class="icon-th"></i></span>
 					</div>
 				</div>
-			</fieldset>
+				<div class="clearfix"></div>
+				<div class="form-group">
+					<label class="control-label col-xs-12 col-sm-3 col-md-2">Reason:</label>
+					<input type="text" name="nextContact[reason]" placeholder="Reason" class="form-control col-xs-12 col-sm-6 col-md-4" />
+				</div>
+			</fieldset>	
 		</form>
 		<script src="/js/jquery-1.10.2.js"></script>
 		<script src="/js/bootstrap.js"></script>
@@ -139,47 +148,58 @@
 		<script src="/js/select2.js"></script>
 		<script>
 			$(function() {
-				$('.nextContact input[type=checkbox]').on('click', function(e) {
+				$('.createFollowup input[type=checkbox]').on('click', function(e) {
 					var disabled = !e.currentTarget.checked;
-					$('.nextContact input,.nextContact select').prop('disabled', disabled);
-					e.currentTarget.disabled = false;
+					$('fieldset.createFollowup select').prop('disabled', disabled);
+					$('fieldset.nextContact')[disabled ? 'fadeOut' : 'fadeIn']();
 				});
 
-				$('select[name="nextContact[interval]"]').on('change', function(e) {
-					var interval = $(e.currentTarget).val(),
-						date = moment(),
-						isoDate = '',
-						dateDisplay = 'Don\'t follow up';
-					switch(interval) {
-						case 'w':
-							date.add('w', 1);
-							break;
-						case 'm':
-							date.add('M', 1);
-							break;
-						case 'q':
-							date.add('M', 3);
-							break;
-						case 'y':
-							date.add('y', 1);
-							break;
-						default:
-							date = null;
+				$('.createFollowup select').on('change', function(e) {
+					var value = e.currentTarget.value,
+						disabled = !value;
+					$('fieldset.nextContact')[disabled ? 'fadeOut' : 'fadeIn']();
+
+					if(!disabled) {
+						var newDate = moment().startOf('hour');
+						switch(value) {
+							case 'q':
+								newDate = newDate.add('month', 3);
+								break;
+							case 'm':
+								newDate = newDate.add('month', 1);
+								break;
+							default:
+								newDate = newDate.add(value, 1);
+								break;
+						}
+						if(newDate.isValid()) {
+ 							$('.dateSection input[type=hidden]').val(newDate.format());
+ 							$('.dateSection input[type=text]').val(newDate.format('MMM D, YYYY h:mm A'));
+ 						}
 					}
-
-					if(date) {
-						var format = date.year() == new Date().getFullYear() ? 'MMM D' : 'MMM D, YYYY';
-						dateDisplay = 'Next contact scheduled for ' + date.format(format);
-						isoDate = date.format();
-					}
-
-					$('.nextContact .help-block').html(dateDisplay);
-					$('.nextContact input[name="nextContact[date]"]').val(isoDate);
-				}).change();
-
+				});
+				
 				$('input[name=tags]').select2({
 					tags: [<%= tags %>]
-				})
+				});
+
+				$(document).on('click', 'input[type=radio][name="nextContact[type]"]', function(e) {
+					var canConfirm = (e.currentTarget.value === 'meeting' || e.currentTarget.value === 'call'),
+						method = canConfirm ? 'removeClass' : 'addClass',
+						$confirmContainer = $('.confirmGroup');
+
+					$confirmContainer[method]('hide');
+					$confirmContainer.find('input').prop('checked', canConfirm);
+				});
+
+				$(document).on('change', '.dateSection input[type=text]', function(e) {
+					var value = e.currentTarget.value,						
+						$hdn = $(e.currentTarget).parents('.form-group').find('input[type=hidden][name*=date]'),
+						date = moment(value, 'MMM D, YYYY h:mm A'),
+						isoString = date.format();
+
+					$hdn.val(isoString);
+				});
 			});
 		</script>
 	</body>

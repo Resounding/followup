@@ -1,6 +1,7 @@
 var util = require('util'),
     cons = require('consolidate'),
     _ = require('underscore'),
+    moment = require('moment'),
     toViewModel = require('../public/js/util/toViewModel'),
     database;
 
@@ -20,13 +21,16 @@ People.index = function(req, res){
 People.new = function(req, res){
     database.view('people/tags', function(tagsErr, dbRes) {
         
-        var tags = dbRes.map(function(tag) {
-            return "'" + tag + "'";
-        });
+        var followupDate = moment().add('month', 3).startOf('hour'),
+            tags = dbRes.map(function(tag) {
+                return "'" + tag + "'";
+            });
         tags = _.uniq(tags).join(',');
         
         res.render('people/new', {
-            tags: tags
+            tags: tags,
+            today: followupDate.format(),
+            todayString: followupDate.format('MMM D, YYYY h:mm A')
         });
     });
 };
