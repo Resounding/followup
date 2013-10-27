@@ -13,6 +13,7 @@
 		<link rel="stylesheet" href="/css/font-awesome.css">
 		<link rel="stylesheet" href="/css/bootstrap-datetimepicker.min.css">
 		<link rel="stylesheet" href="/css/followup.css">
+		<link rel="stylesheet" href="/css/typeahead.js-bootstrap.css">
 		<style>
 			a.navbar-brand { padding-top: 10px; }
 			.appointment:hover .table-striped > tbody > tr:nth-child(odd) > td,
@@ -44,6 +45,7 @@
 			<fieldset>
 				<legend>New Appointment</legend>
 			
+				<div class="alert alert-danger hide"></div>
 				<div class="form-group">
 					<input type="hidden" name="date" />
 
@@ -65,40 +67,43 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="radio-inline">
-						<input type="radio" name="type" value="meeting" checked>
-						<i class="icon-group"></i>
-						Meeting
-					</label>
-					<label class="radio-inline">
-						<input type="radio" name="type" value="call">
-						<i class="icon-phone"></i>
-						Call
-					</label>
-					<label class="radio-inline">
-						<i class="icon-envelope"></i>
-						<input type="radio" name="type" value="email">
-						Email
-					</label>
-
-					<div class="checkbox confirmGroup">
-						<label>
-							<input type="checkbox" name="confirmed" value="true" checked>
-							Confirmed
+					<!-- spacer -->
+					<label class="control-label col-xs-12 col-sm-3 col-md-2">&nbsp;</label>
+					<div class="col-xs-12 col-sm-8">
+						<label class="radio-inline">
+							<input type="radio" name="type" value="meeting" checked>
+							<i class="icon-group"></i>
+							Meeting
 						</label>
+						<label class="radio-inline">
+							<input type="radio" name="type" value="call">
+							<i class="icon-phone"></i>
+							Call
+						</label>
+						<label class="radio-inline">
+							<i class="icon-envelope"></i>
+							<input type="radio" name="type" value="email">
+							Email
+						</label>
+					</div>
+					<div class="clearfix"></div>
+					
+					<label class="control-label col-xs-12 col-sm-3 col-md-2">&nbsp;</label>
+					<div class="col-xs-12 col-sm-8">
+						<div class="checkbox confirmGroup">
+							<label>
+								<input type="checkbox" name="confirmed" value="true" checked>
+								Confirmed
+							</label>
+						</div>
 					</div>
 				</div>
 				<div class="form-group">
-					<label>Client:</label>
-					<% people.forEach(function(person) { %>
-						<div class="radio">
-							<label>
-								<input type="radio" name="client" value="<%= person._id %>" />
-								<%- person.firstName %>
-								<%- person.lastName %>
-							</label>
-						</div>
-					<% }); %>
+					<input type="hidden" name="client" />
+					<label class="control-label col-xs-12 col-sm-3 col-md-2">Client:</label>
+					<div class="col-xs-12 col-sm-5">
+						<input type="search" name="clientSearch" class="form-control" />
+					</div>
 				</div>
 			</fieldset>			
 		</form>
@@ -107,6 +112,7 @@
 		<script src="/js/bootstrap.js"></script>
 		<script src="/js/moment.js"></script>
 		<script src="/js/bootstrap-datetimepicker.js"></script>
+		<script src="/js/typeahead.js"></script>
 		<script type="text/javascript">
 		$(function() {
 
@@ -163,6 +169,25 @@
 				$confirmContainer[method]('hide');
 				$confirmContainer.find('input').prop('checked', canConfirm);
 			});
+
+			$('input[type=search][name=clientSearch]').typeahead({
+					remote: '/search.json?q=%QUERY'
+			})
+			.on('typeahead:selected', function(e, client) {
+				$('[name=client]').val(client.id);
+			});
+
+			$('form').on('submit', function(e) {
+				if(!$('[name=client]').val()) {
+					e.preventDefault();
+					$('.alert-danger').removeClass('hide').html('Please select a client.');
+					$('input[type=search][name=clientSearch]').focus();
+				}
+			});
+
+			$('input').on('keyup', function() {
+				$('.alert-danger').addClass('hide');
+			})
 		});
 		</script>
 	</body>

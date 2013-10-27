@@ -63,39 +63,57 @@ Search.index = function(req, res){
 
 	database.view('people/lastName', function(err, dbRes) {
 
-		var rows = [];
-		
-		dbRes.forEach(function(row) {			
+		if(req.format == 'json') {
 
-			row.tags = row.tags || [];
+			var json = dbRes.reduce(function(memo, row) {
+				var person = {
+					id: row.value._id,
+					firstName: row.value.firstName,
+					lastName: row.value.lastName,
+					value: row.value.firstName + ' ' + row.value.lastName
+				};
+				memo.push(person);
+				return memo;
+			}, []);
 
-			if(tag) {
-				if(row.tags.indexOf(tag) === -1) {
-					row.tags.push(tag);
+			res.send(json);
+
+		} else {
+
+			var rows = [];
+			
+			dbRes.forEach(function(row) {			
+
+				row.tags = row.tags || [];
+
+				if(tag) {
+					if(row.tags.indexOf(tag) === -1) {
+						row.tags.push(tag);
+					}
 				}
-			}
 
-			if(search) {
-				var searchKey = search.toLowerCase();
-				if(row.firstName.toLowerCase().indexOf(searchKey) === -1 &&
-					row.lastName.toLowerCase().indexOf(searchKey) === -1 &&
-					row.organization.toLowerCase().indexOf(searchKey) === -1 &&
-					row.address.city.toLowerCase().indexOf(searchKey) === -1) {
+				if(search) {
+					var searchKey = search.toLowerCase();
+					if(row.firstName.toLowerCase().indexOf(searchKey) === -1 &&
+						row.lastName.toLowerCase().indexOf(searchKey) === -1 &&
+						row.organization.toLowerCase().indexOf(searchKey) === -1 &&
+						row.address.city.toLowerCase().indexOf(searchKey) === -1) {
 
-					return;
+						return;
+					}
 				}
-			}
 
-			var html = toHtml(row);
-			rows.push(html);
-		});
+				var html = toHtml(row);
+				rows.push(html);
+			});
 
-		res.render('people', {
-			title: title,
-			people: rows,
-			search: search,
-			tag: tag
-		});  
+			res.render('people', {
+				title: title,
+				people: rows,
+				search: search,
+				tag: tag
+			});  
+		}
 	});  
 };
 
