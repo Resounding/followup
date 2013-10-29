@@ -24,8 +24,6 @@ Followups.index = function(req, res){
         };
 
         rows = rows.sort(function(a,b) {
-            console.log('a: ' + util.inspect(a));
-            console.log('b: ' + util.inspect(b));
             var aDate = moment(a.value.nextContact.date).toDate().valueOf(),
                 bDate = moment(b.value.nextContact.date).toDate().valueOf();
 

@@ -68,9 +68,17 @@
 								<span class="caret"></span>
 							</button>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="#">&gt; $5M</a></li>
-								<li><a href="#">Fall Roadshow</a></li>
-								<li><a href="#">Golf</a></li>
+								<li><a href="/search?d=121">121+ days</a></li>
+								<li><a href="/search?d=61">61-120 days</a></li>
+								<li><a href="/search?d=31">31-60 days</a></li>
+								<li><a href="/search?d=1">0-30 days</a></li>
+								<li class="divider"></li>
+								<li><a href="/search?tag=%3E%20$5M">&gt; $5M</a></li>
+								<li><a href="/search?tag=Div%20Inc">Div Inc</a></li>
+								<li><a href="/search?tag=Fall%20Roadshow">Fall Roadshow</a></li>
+								<li><a href="/search?tag=Golf">Golf</a></li>
+								<li><a href="/search?tag=Preferred%20Share">Preferred Share</a></li>
+								<li><a href="/search?tag=Turtle">Turtle Funds</a></li>
 								<li class="divider"></li>
 								<li><a href="#">Show All</a></li>
 							</ul>
@@ -102,12 +110,6 @@
 		<script src="../js/bootstrap-datetimepicker.js"></script>
 		<script>
 		$(function() {
-			$(document).on('click', 'form[action="/search"] ul.dropdown-menu a', function(e) {
-				var $form = $('form[action="/search"]');
-				$form.find('input[type=hidden]').val(e.currentTarget.innerText);
-				$form.submit();
-			});
-
 			// don't close the dropdown when they click on search
 			$(document).on('click', 'ul.dropdown-menu', function(e) {
 				e.stopPropagation();

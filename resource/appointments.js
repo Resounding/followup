@@ -26,9 +26,14 @@ Appointments.index = function(req, res) {
 Appointments.new = function(req, res) {
 	database.view('people/lastName', function(err, people) {
 
+		var followupDate = moment().startOf('hour');
+
 		res.render('appointments/new', {
 			title: 'New Appointment',
-			people: people
+			people: people,
+			today: followupDate.format(),
+            todayString: followupDate.format('MMM D, YYYY'),
+            nowString: followupDate.format('h:mm A')
 		});	
 	});
 };

@@ -21,6 +21,13 @@
 			.appointment:hover .well {
 				background-color: #eee;
 			}
+
+			.dateSection input[type=text] {
+				width: -webkit-calc(100% - 30px);
+				width: calc(100% - 30px);
+				display: inline-block;
+				margin-right: 3px;
+			}
 		</style>
 	</head>
 	<body>
@@ -46,18 +53,20 @@
 				<legend>New Appointment</legend>
 			
 				<div class="alert alert-danger hide"></div>
-				<div class="form-group">
-					<input type="hidden" name="date" />
+				<div class="form-group dateSection">
+					<input type="hidden" name="date" value="<%= today %>" />
 
 					<label class="control-label col-xs-12 col-sm-3 col-md-2">Date:</label>
-					<div class="col-xs-12 col-sm-5" data-toggle="date">
-						<input type="text" class="form-control" autofocus />
+					<div class="input-append date date-portion col-xs-6 col-sm-2">
+						<input type="text" class="form-control" value="<%= todayString %>" readonly />
+						<span class="add-on"><i class="icon-calendar"></i></span>
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-group dateSection">
 					<label class="control-label col-xs-12 col-sm-3 col-md-2">Time:</label>
-					<div class="col-xs-12 col-sm-5" data-toggle="time">
-						<input type="text" class="form-control"	 />
+					<div class="input-append date time-portion col-xs-6 col-sm-2">
+						<input type="text" class="form-control" value="<%= nowString %>" readonly />
+						<span class="add-on"><i class="icon-time"></i></span>
 					</div>
 				</div>
 				<div class="form-group">
@@ -118,48 +127,46 @@
 
 			$('input[type=radio][name=client]').first().prop('checked', true);
 
-			var now = moment().startOf('hour'),
-				$hdn = $('input[name=date]').val(now.format()),
-				$date = $('[data-toggle=date] input').val(now.format('MMM D, YYYY')),
-				$time = $('[data-toggle=time] input').val(now.format('h:mm A'));
+			var $hdn = $('input[type=hidden][name=date]'),
+					$txtDate = $('.dateSection .date input[type=text]'),
+					$txtTime = $('.dateSection .time input[type=text]'),
+					$datepicker = $('.dateSection .date-portion'),
+					$timepicker = $('.dateSection .time-portion');
 
-			$('[data-toggle=date]')
-  				.datetimepicker({
-	  				pickTime: false
-	  			})
-	  			.on('changeDate', function(e) {
-	  				var newValue = moment.utc(e.date),
-	  					date = moment($hdn.val());
+					$datepicker.datetimepicker({ 
+						minView: 2,
+						format: 'M d, yyyy',
+						autoclose: true
+					})
+					.on('changeDate', function(e) {						
+						var date = moment($hdn.val()),	
+							newDate = moment(e.date);
 
-  					date = date.year(newValue.year()).month(newValue.month()).date(newValue.date());
+						date.year(newDate.year());
+						date.month(newDate.month());
+						date.day(newDate.day());
 
-  					$date.val(date.format('MMM D, YYYY'));
-  					$hdn.val(date.format());	  	
-	  			})
-	  			.on('hide', function(e) {
-					var date = moment($hdn.val());
-  					$date.val(date.format('MMM D, YYYY'));
-	  			});
+						$hdn.val(date.format());
+					});
 
-  			$('[data-toggle=time]')
-  				.datetimepicker({
-	  				pickDate: false,
-	  				pickSeconds: false,
-	  				pick12HourFormat: true
-	  			})
-	  			.on('changeDate', function(e) {
-	  				var newValue = moment.utc(e.date),
-	  					date = moment($hdn.val());
+					$timepicker.datetimepicker({
+						initialDate: moment($hdn.val()).toDate(),
+						format: 'H:ii P',
+						startView: 1,
+						maxView: 1,
+						showMeridian: true,
+						autoclose: true,
+						minuteStep: 15
+					})
+					.on('changeDate', function(e) {						
+						var date = moment($hdn.val()),
+							time = moment(e.date);
 
-  					date = date.hour(newValue.hour()).minute(newValue.minute());
-
-  					$time.val(date.format('h:mm A'));
-  					$hdn.val(date.format());
-	  			})
-	  			.on('hide', function(e) {
-					var date = moment($hdn.val());
-  					$time.val(date.format('h:mm A'));
-	  			});
+						date.minutes(time.minutes());
+						date.hours(time.hours());
+						
+						$hdn.val(date.format());
+					});
 
   			$(document).on('click', 'input[type=radio][name=type]', function(e) {
 				var canConfirm = (e.currentTarget.value === 'meeting' || e.currentTarget.value === 'call'),
