@@ -7,11 +7,11 @@
 		<title>Resounding followups dashboard</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans">
-		<link rel="stylesheet" href="css/bootstrap.css">
-		<link rel="stylesheet" href="css/bootstrap-modal.css">
-		<link rel="stylesheet" href="css/font-awesome.css">
-		<link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
-		<link rel="stylesheet" href="css/followup.css">
+		<link rel="stylesheet" href="/css/bootstrap.css">
+		<link rel="stylesheet" href="/css/bootstrap-modal.css">
+		<link rel="stylesheet" href="/css/font-awesome.css">
+		<link rel="stylesheet" href="/css/bootstrap-datetimepicker.min.css">
+		<link rel="stylesheet" href="/css/followup.css">
 		<style>
 			a.navbar-brand { padding-top: 10px; }
 		</style>
@@ -39,7 +39,7 @@
 								<i class="icon-search"></i>
 							</button>
 						</span>
-						<div class="btn-group" data-toggle="calendar">
+						<div class="btn-group date" data-toggle="calendar">
 							<input type="hidden" />
 							<button type="button" class="btn btn-default addon">
 								<i class="icon-calendar"></i>
@@ -139,10 +139,10 @@
 			</div>
 		<% } %>
 		
-		<script src="js/jquery-1.10.2.js"></script>
-		<script src="js/bootstrap.js"></script>
-		<script src="js/moment.js"></script>
-		<script src="js/bootstrap-datetimepicker.js"></script>
+		<script src="/js/jquery-1.10.2.js"></script>
+		<script src="/js/bootstrap.js"></script>
+		<script src="/js/moment.js"></script>
+		<script src="/js/bootstrap-datetimepicker.js"></script>
 		<script type="text/javascript">
 		$(function() {
 			$(document).on('click', 'form[action="/search"] ul.dropdown-menu a', function(e) {
@@ -170,7 +170,9 @@
 
 			$('[data-toggle=calendar]')
 				.datetimepicker({
-					pickTime: false
+					minView: 2,
+					format: 'M d, yyyy',
+					autoclose: true
 				})
 				.on('changeDate', function(e) {
 					var date = moment(e.date),

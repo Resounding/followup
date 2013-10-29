@@ -11,12 +11,26 @@
 		<link rel="stylesheet" href="/css/bootstrap-modal.css">
 		<link rel="stylesheet" href="/css/font-awesome.css">
 		<link rel="stylesheet" href="/css/select2.css">
+		<link rel="stylesheet" href="/css/bootstrap-datetimepicker.min.css">
 		<link rel="stylesheet" href="/css/followup.css">
 		<style>
 			a.navbar-brand { padding-top: 10px; }
 			.navbar-nav.btn-group {
 				margin-left: 0;
 				padding-top: 0;
+			}
+
+			@media (min-width: 768px) {
+				.select2-container.col-sm-6 {
+					width: 100%;
+				}
+			}
+
+			.dateSection input[type=text] {
+				width: -webkit-calc(100% - 30px);
+				width: calc(100% - 30px);
+				display: inline-block;
+				margin-right: 3px;
 			}
 		</style>
 	</head>
@@ -97,17 +111,22 @@
 
 				<div class="form-group">
 					<label class="control-label col-xs-12 col-sm-3 col-md-1">Tags:</label>
-					<input type="hidden" name="tags" class="col-xs-12 col-sm-6 col-md-4" data-placeholder="Tags" />
+					<div class="col-xs-12 col-sm-6 col-md-4">
+						<input type="hidden" name="tags" class="col-xs-12 col-sm-6 col-md-4" data-placeholder="Tags" />
+					</div>
 					<div class="clearfix"></div>
 				</div>
 			</fieldset>
 			<fieldset class="createFollowup">
 				<label class="control-label col-xs-12 col-sm-3 col-md-1">&nbsp;</label>
-				<div class="checkbox">
-					<label>
-						<input type="checkbox" checked> Create Followup
-					</label>
+				<div class="col-xs-12 col-sm-6 col-md-4">
+					<div class="checkbox">
+						<label>
+							<input type="checkbox" checked> Create Followup
+						</label>
+					</div>
 				</div>
+				<div class="clearfix"></div>
 				<label class="control-label col-xs-12 col-sm-3 col-md-1">Each:</label>
 				<div class="col-xs-12 col-sm-6 col-md-4">
 					<select name="interval" class="form-control">
@@ -129,16 +148,22 @@
 				<input type="hidden" name="nextContact[type]" value="schedule" />
 				<div class="form-group dateSection">					
 					<input type="hidden" name="nextContact[date]" value="<%= today %>" />
-					<label class="control-label col-xs-12 col-sm-3 col-md-2">Date/Time:</label>
-					<div class="input-append date col-xs-12 col-sm-4 col-lg-3" style="padding-left: 0;">
-						<input type="text" class="form-control" style="width: -webkit-calc(100% - 25px); width: calc(100% - 25px); display: inline-block;" value="<%= todayString %>" />
-						<span class="add-on"><i class="icon-th"></i></span>
+					<label class="control-label col-xs-12 col-sm-3 col-md-1">Date/Time:</label>
+					<div class="input-append date date-portion col-xs-6 col-sm-2">
+						<input type="text" class="form-control" value="<%= todayString %>" readonly />
+						<span class="add-on"><i class="icon-calendar"></i></span>
+					</div>
+					<div class="input-append date time-portion col-xs-6 col-sm-2">
+						<input type="text" class="form-control" value="<%= nowString %>" readonly />
+						<span class="add-on"><i class="icon-time"></i></span>
 					</div>
 				</div>
 				<div class="clearfix"></div>
 				<div class="form-group">
-					<label class="control-label col-xs-12 col-sm-3 col-md-2">Reason:</label>
-					<input type="text" name="nextContact[reason]" placeholder="Reason" class="form-control col-xs-12 col-sm-6 col-md-4" />
+					<label class="control-label col-xs-12 col-sm-3 col-md-1">Reason:</label>
+					<div class="col-xs-12 col-sm-6 col-md-4">
+							<input type="text" name="nextContact[reason]" placeholder="Reason" class="form-control" />
+					</div>
 				</div>
 			</fieldset>	
 		</form>
@@ -146,6 +171,7 @@
 		<script src="/js/bootstrap.js"></script>
 		<script src="/js/moment.js"></script>
 		<script src="/js/select2.js"></script>
+		<script src="/js/bootstrap-datetimepicker.js"></script>
 		<script>
 			$(function() {
 				$('.createFollowup input[type=checkbox]').on('click', function(e) {
@@ -192,14 +218,46 @@
 					$confirmContainer.find('input').prop('checked', canConfirm);
 				});
 
-				$(document).on('change', '.dateSection input[type=text]', function(e) {
-					var value = e.currentTarget.value,						
-						$hdn = $(e.currentTarget).parents('.form-group').find('input[type=hidden][name*=date]'),
-						date = moment(value, 'MMM D, YYYY h:mm A'),
-						isoString = date.format();
+				var $hdn = $('input[type=hidden][name="nextContact[date]"]'),
+					$txtDate = $('.dateSection .date input[type=text]'),
+					$txtTime = $('.dateSection .time input[type=text]'),
+					$datepicker = $('.dateSection .date-portion'),
+					$timepicker = $('.dateSection .time-portion');
 
-					$hdn.val(isoString);
-				});
+					$datepicker.datetimepicker({ 
+						minView: 2,
+						format: 'M d, yyyy',
+						autoclose: true
+					})
+					.on('changeDate', function(e) {						
+						var date = moment($hdn.val()),	
+							newDate = moment(e.date);
+
+						date.year(newDate.year());
+						date.month(newDate.month());
+						date.day(newDate.day());
+
+						$hdn.val(date.format());
+					});
+
+					$timepicker.datetimepicker({
+						initialDate: moment($hdn.val()).toDate(),
+						format: 'H:ii P',
+						startView: 1,
+						maxView: 1,
+						showMeridian: true,
+						autoclose: true,
+						minuteStep: 15
+					})
+					.on('changeDate', function(e) {						
+						var date = moment($hdn.val()),
+							time = moment(e.date);
+
+						date.minutes(time.minutes());
+						date.hours(time.hours());
+						
+						$hdn.val(date.format());
+					});
 			});
 		</script>
 	</body>

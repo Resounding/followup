@@ -30,7 +30,8 @@ People.new = function(req, res){
         res.render('people/new', {
             tags: tags,
             today: followupDate.format(),
-            todayString: followupDate.format('MMM D, YYYY h:mm A')
+            todayString: followupDate.format('MMM D, YYYY'),
+            nowString: followupDate.format('h:mm A')
         });
     });
 };

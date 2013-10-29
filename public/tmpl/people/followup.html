@@ -13,7 +13,7 @@
 		<link rel="stylesheet" href="/css/font-awesome.css">
 		<link rel="stylesheet" href="/css/followup.css">
 		<link rel="stylesheet" href="/css/select2.css">
-		<link rel="stylesheet" href="/css/datetimepicker.css">
+		<link rel="stylesheet" href="/css/bootstrap-datetimepicker.min.css">
 		<style>
 			a.navbar-brand { padding-top: 10px; }
 			.navbar-nav.btn-group {
@@ -198,8 +198,6 @@
 					tags: [<%= all_tags %>]
 				})
 
-				//$('div.date').datetimepicker();
-
 				$(document).on('click', 'input[type=radio][name="nextContact[type]"]', function(e) {
 					var canConfirm = (e.currentTarget.value === 'meeting' || e.currentTarget.value === 'call'),
 						method = canConfirm ? 'removeClass' : 'addClass',
@@ -209,14 +207,19 @@
 					$confirmContainer.find('input').prop('checked', canConfirm);
 				});
 
-				$(document).on('change', '.dateSection input[type=text]', function(e) {
-					var value = e.currentTarget.value,						
-						$hdn = $(e.currentTarget).parents('.form-group').find('input[type=hidden][name*=date]'),
-						date = moment(value, 'MMM D, YYYY h:mm A'),
-						isoString = date.format();
+				$('.date')
+					.datetimepicker({
+						format: 'M d, yyyy H:ii P',
+						showMeridian: true,
+						autoclose: true,
+						minuteStep: 15
+					})
+					.on('changeDate', function(e) {						
+						var date = moment(e.date),
+							$hdn = $(e.currentTarget).parents('.form-group').find('input[type=hidden][name*=date]');
 
-					$hdn.val(isoString);
-				});
+						$hdn.val(date.format());
+					});
 			});
 		</script>	
 	</body>
